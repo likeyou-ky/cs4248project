@@ -1,0 +1,4 @@
+*.log
+*.raw.graph
+*.raw.sentic
+__pycache__/

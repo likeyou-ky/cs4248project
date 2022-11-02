@@ -1,29 +1,32 @@
-# Sentic GCN: A Simple But Effective Framework for Aspect-Based Sentiment Analysis via Affective Knowledge Enhanced GCN
+# Modification on Sentic GCN
 # Introduction
-This repository was used in our paper:  
+This repository was used in this paper:  
   
 [**Aspect-Based Sentiment Analysis via Affective Knowledge Enhanced Graph Convolutional Networks**](https://www.sentic.net/sentic-gcn.pdf)
 <br>
 Bin Liang, Hang Su, Lin Gui, Erik Cambria, Ruifeng Xu. *Knowledge-Based Systems, 2021: 107643.*
   
-Please cite our paper and kindly give a star for this repository if you use this code.
+Please cite this paper and kindly give a star for this repository if you use this code.
 
 ## Requirements
 
-* Python 3.6
-* PyTorch 1.0.0
-* SpaCy 2.0.18
-* numpy 1.15.4
+| Package Name | Version |
+| --- | --- |
+| Python | 3.10 |
+| PyTorch | 1.12.1 |
+| SpaCy | 3.4.2 |
+| numpy | 1.23.1 |
+| Transformers | 4.24.0 |
+| ipdb | 0.13.9 |
 
 ## Usage
 
-* Install [SpaCy](https://spacy.io/) package and language models with
+* Install packages with
 ```bash
 pip install spacy
-```
-and
-```bash
-python -m spacy download en
+python -m spacy download en_core_web_sm
+pip install transformers
+pip install ipdb
 ```
 * Generate dependency graph with
 ```bash
@@ -41,7 +44,6 @@ python generate_sentic_dependency_graph.py
 ## Training
 * Train with command, optional arguments could be found in [train.py](/train.py) \& [train_bert.py](/train_bert.py)
 * Please tune the argument of *--seed* for better performance
-
 
 * Run senticgcn: ```./run_senticgcn.sh```
 
@@ -87,4 +89,3 @@ The BibTex of the citation is as follow:
 * Here, we would like to express our heartfelt thanks to all the authors of SenticNet. 
 * The code of this repository partly relies on [ASGCN](https://github.com/GeneZC/ASGCN) \& [ABSA-PyTorch](https://github.com/songyouwei/ABSA-PyTorch). 
 * Here, we would like to express our gratitude to the authors of the [ASGCN](https://github.com/GeneZC/ASGCN) \& [ABSA-PyTorch](https://github.com/songyouwei/ABSA-PyTorch) repositories.
-

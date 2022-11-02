@@ -95,7 +95,10 @@ class SenticGCN_BERT(nn.Module):
         #text = self.text_embed_dropout(text)
         #text_out, (_, _) = self.text_lstm(text, text_len)
 
-        encoder_layer, pooled_output = self.bert(text_bert_indices, token_type_ids=bert_segments_ids, output_all_encoded_layers=False)
+        #encoder_layer, pooled_output = self.bert(text_bert_indices, token_type_ids=bert_segments_ids, output_all_encoded_layers=False)
+        od = self.bert(text_bert_indices, token_type_ids=bert_segments_ids, output_hidden_states=None)
+        encoder_layer = od['last_hidden_state']
+        pooled_output = od['pooler_output']
 
         text_out = encoder_layer
 

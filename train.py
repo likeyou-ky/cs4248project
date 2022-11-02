@@ -11,6 +11,7 @@ from bucket_iterator import BucketIterator
 from sklearn import metrics
 from data_utils import ABSADatesetReader
 from models import LSTM, SenticGCN, ATTSenticGCN, SDGCN, AFFGCN
+from models.senticgcn_glove import SenticGCNGLOVE
 
 class Instructor:
     def __init__(self, opt):
@@ -188,12 +189,14 @@ if __name__ == '__main__':
         'attsenticgcn': ATTSenticGCN,
         'sdgcn': SDGCN,
         'affgcn': AFFGCN,
+        'senticgcnglove': SenticGCNGLOVE
     }
     input_colses = {
         'lstm': ['text_indices'],
         'senticgcn': ['text_indices', 'aspect_indices', 'left_indices', 'sdat_graph'],
         'sdgcn': ['text_indices', 'aspect_indices', 'left_indices', 'sentic_graph', 'sdat_graph'],
         'affgcn': ['text_indices', 'aspect_indices', 'left_indices', 'sentic_graph'],
+        'senticgcnglove': ['text_indices', 'aspect_indices', 'left_indices', 'sdat_graph']
     }
     initializers = {
         'xavier_uniform_': torch.nn.init.xavier_uniform_,

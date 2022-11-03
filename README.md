@@ -55,7 +55,24 @@ python generate_sentic_dependency_graph.py
 * Please run ```python infer.py``` for the testing of non-BERT models.
 * Please run ```python infer_for_bert.py``` for the testing of BERT-based models.
 
-
+## Comparing different Fs
+* Comparing different Fs using the models saved in **state_dict**. Results will be saved in **posf_logs**.
+* Please run ```./test_posf.sh```. You can modify it if needed.
+* Note: This operation takes huge amounts of time by default.
+* Each F uses a different mash to assign position-aware weights. Pre-tested result for reference:
+  | Mask Type | Epochs Needed | test_acc | test_f1 |
+  | --- | --- | --- | --- |
+  | nill | 9 | 0.8545 | 0.7815 |
+  | linear | 8 | 0.8571 | 0.7910 |
+  | constant | 9 | 0.8536 | 0.7722 |
+  | harmonic | 8 | 0.8509 | 0.7794 |
+  | quadratic | 10 | 0.8491 | 0.7737 |
+  | sqrt | 13 | 0.8545 | 0.7813 |
+  | exponential | 11 | 0.8536 | 0.7796 |
+  | sigmoid | 8 | 0.8518 | 0.7778 |
+  | tanh | 8 | 0.8589 | 0.7869 |
+  | cosine | 8 | 0.8571 | 0.7827 |
+  | gaussian | 10 | 0.8589 | 0.7941 |
 
 ## Citation
 

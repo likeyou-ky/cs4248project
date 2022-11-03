@@ -1,6 +1,5 @@
 ## declare posf args arr
 declare -a arr=("nill" "piecewise_linear_mask" "piecewise_constant_mask" "piecewise_harmonic_mask" "piecewise_quadratic_mask" "piecewise_sqrt_mask" "piecewise_exponential_mask" "piecewise_sigmoid_mask" "piecewise_tanh_mask" "piecewise_cosine_mask" "piecewise_gaussian_mask")
-declare -a arr=("piecewise_constant_mask")
 readonly NEPOCHS=30
 RESULT=""
 ## loop through arr

@@ -204,7 +204,9 @@ def main():
     parser.add_argument('--device', default=None, type=str, help='e.g. cuda:0')
     parser.add_argument('--seed', default=1234, type=int, help='set seed for reproducibility')
     parser.add_argument('--valset_ratio', default=0, type=float, help='set ratio between 0 and 1 for validation support')
-    parser.add_argument('--posf', default='piecewise_mask', type=str, help='specifies the position awareness function: nill, piecewise_mask')
+    parser.add_argument('--posf', default='piecewise_linear_mask', type=str, help='specifies the position awareness function: \
+        nill, piecewise_linear_mask, piecewise_constant_mask, piecewise_harmonic_mask, piecewise_quadratic_mask, piecewise_sqrt_mask, \
+            piecewise_exponential_mask, piecewise_sigmoid_mask, piecewise_tanh_mask, piecewise_cosine_mask, piecewise_gaussian_mask')
     opt = parser.parse_args()
 
     if opt.seed is not None:

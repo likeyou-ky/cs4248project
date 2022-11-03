@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from layers.dynamic_rnn import DynamicLSTM
-from posf import *
+from .posf import position_weight
 
 class GraphConvolution(nn.Module):
     """
@@ -49,7 +49,9 @@ class SenticGCN_BERT(nn.Module):
         #self.gc8 = GraphConvolution(2*opt.hidden_dim, 2*opt.hidden_dim)
         self.fc = nn.Linear(opt.bert_dim, opt.polarities_dim)
         self.text_embed_dropout = nn.Dropout(0.3)
-        self.position_weight = position_weight
+    
+    def position_weight(self, x, aspect_double_idx, text_len, aspect_len):
+        return position_weight(self.opt, x, aspect_double_idx, text_len, aspect_len)
 
     def mask(self, x, aspect_double_idx):
         batch_size, seq_len = x.shape[0], x.shape[1]

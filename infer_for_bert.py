@@ -119,7 +119,7 @@ if __name__ == '__main__':
     opt.hidden_dim = 300
     opt.polarities_dim = 3
     opt.max_seq_len = 85
-    opt.posf = 'piecewise_mask'
+    opt.posf = 'piecewise_linear_mask'
     opt.pretrained_bert_name = 'bert-base-uncased'
     opt.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 

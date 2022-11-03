@@ -1,0 +1,3 @@
+nill epoch: 0 >> test_acc: 0.7964, test_f1: 0.6856
+piecewise_linear_mask epoch: 0 >> test_acc: 0.8143, test_f1: 0.7048
+piecewise_gaussian_mask epoch: 0 

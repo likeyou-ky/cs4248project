@@ -112,6 +112,7 @@ if __name__ == '__main__':
     opt.embed_dim = 300
     opt.hidden_dim = 300
     opt.polarities_dim = 3
+    opt.posf = 'piecewise_mask'
     opt.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     raw_text = 'Food is always fresh and hot - ready to eat !'

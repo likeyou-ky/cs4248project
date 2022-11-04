@@ -43,30 +43,18 @@ def dependency_adj_matrix(text, aspect, senticNet):
         if str(token) in aspect:
             sentic += 1 * aspect_w
         if token.i < seq_len:
-            matrix[token.i][token.i] = (1 * sentic + sentic) * sentic_w
+            matrix[token.i][token.i] = (1 * sentic + sentic) * sentic_w + 1
             # https://spacy.io/docs/api/token
-            if str(token) not in aspect:
-              for child in token.children:
-                  if str(child) in senticNet:
-                      s = float(senticNet[str(child)])
-                  else:
-                      s = 0
-                  if str(child) in aspect:
-                      s += 1 * aspect_w
-                  if child.i < seq_len:
-                      matrix[token.i][child.i] = (1 * sentic + s) * sentic_w
-                      matrix[child.i][token.i] = (1 * sentic + s) * sentic_w
-            else:
-                for child in document:
-                  if str(child) in senticNet:
-                      s = float(senticNet[str(child)])
-                  else:
-                      s = 0
-                  if str(child) in aspect:
-                      s += 1
-                  if child.i < seq_len:
-                      matrix[token.i][child.i] = 1 * sentic + s
-                      matrix[child.i][token.i] = 1 * sentic + s
+            for child in token.children:
+                if str(child) in senticNet:
+                    child_sentic = float(senticNet[str(child)])
+                else:
+                    child_sentic = 0
+                if str(token) not in aspect and str(child) in aspect:
+                    child_sentic += 1 * aspect_w
+                if child.i < seq_len:
+                    matrix[token.i][child.i] = (1 * sentic + child_sentic) * sentic_w + 1
+                    matrix[child.i][token.i] = (1 * sentic + child_sentic) * sentic_w + 1
     return matrix
 
 def process(filename):

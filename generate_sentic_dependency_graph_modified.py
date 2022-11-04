@@ -63,7 +63,7 @@ def process(filename):
     lines = fin.readlines()
     fin.close()
     idx2graph = {}
-    fout = open(filename+'.graph_sdat_modified', 'wb')
+    fout = open(filename+'.graph_sdat', 'wb')
     for i in range(0, len(lines), 3):
         text_left, _, text_right = [s.lower().strip() for s in lines[i].partition("$T$")]
         aspect = lines[i + 1].lower().strip()

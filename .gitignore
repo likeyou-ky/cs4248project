@@ -6,3 +6,4 @@ __pycache__/
 *.pkl
 glove.840B.300d.txt
 log/
+.DS_Store

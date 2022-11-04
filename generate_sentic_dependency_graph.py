@@ -28,29 +28,43 @@ def dependency_adj_matrix(text, aspect, senticNet):
     # https://spacy.io/docs/usage/processing-text
     document = nlp(text)
     seq_len = len(text.split())
-    matrix = np.zeros((seq_len, seq_len)).astype('float32')
+    matrix = np.ones((seq_len, seq_len)).astype('float32')
     #print('='*20+':')
     #print(document)
     #print(senticNet)
     
     for token in document:
-        #print('token:', token)
         if str(token) in senticNet:
-            sentic = float(senticNet[str(token)]) + 1
+            sentic = float(senticNet[str(token)])
         else:
             sentic = 0
         if str(token) in aspect:
             sentic += 1
         if token.i < seq_len:
-            matrix[token.i][token.i] = 1 * sentic
+            matrix[token.i][token.i] = 1 * sentic + sentic
             # https://spacy.io/docs/api/token
-            for child in token.children:
-                if str(child) in aspect:
-                    sentic += 1
-                if child.i < seq_len:
-                    matrix[token.i][child.i] = 1 * sentic
-                    matrix[child.i][token.i] = 1 * sentic
-
+            if str(token) not in aspect:
+              for child in token.children:
+                  if str(child) in senticNet:
+                      s = float(senticNet[str(child)])
+                  else:
+                      s = 0
+                  if str(child) in aspect:
+                      s += 1
+                  if child.i < seq_len:
+                      matrix[token.i][child.i] = 1 * sentic + s
+                      matrix[child.i][token.i] = 1 * sentic + s
+            else:
+                for child in document:
+                  if str(child) in senticNet:
+                      s = float(senticNet[str(child)])
+                  else:
+                      s = 0
+                  if str(child) in aspect:
+                      s += 1
+                  if child.i < seq_len:
+                      matrix[token.i][child.i] = 1 * sentic + s
+                      matrix[child.i][token.i] = 1 * sentic + s
     return matrix
 
 def process(filename):

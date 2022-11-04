@@ -243,6 +243,8 @@ def main():
         'xavier_uniform_': torch.nn.init.xavier_uniform_,
         'xavier_normal_': torch.nn.init.xavier_normal_,
         'orthogonal_': torch.nn.init.orthogonal_,
+        'kaiming_uniform_': torch.nn.init.kaiming_uniform_,
+        'kaiming_normal_': torch.nn.init.kaiming_normal_,
     }
     optimizers = {
         'adadelta': torch.optim.Adadelta,  # default lr=1.0

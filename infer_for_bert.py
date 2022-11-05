@@ -6,7 +6,8 @@ import torch
 import torch.nn.functional as F
 import numpy as np
 
-from pytorch_pretrained_bert import BertModel
+from transformers import BertModel
+#from pytorch_pretrained_bert import BertModel
 from data_utils_bert import build_tokenizer, build_embedding_matrix, Tokenizer4Bert, ABSADataset, pad_and_truncate
 from models import SenticGCN_BERT
 from generate_sentic_dependency_graph import load_sentic_word, dependency_adj_matrix
@@ -118,6 +119,7 @@ if __name__ == '__main__':
     opt.hidden_dim = 300
     opt.polarities_dim = 3
     opt.max_seq_len = 85
+    opt.posf = 'piecewise_linear_mask'
     opt.pretrained_bert_name = 'bert-base-uncased'
     opt.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 

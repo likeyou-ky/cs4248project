@@ -180,6 +180,9 @@ if __name__ == '__main__':
     parser.add_argument('--save', default=False, type=bool)
     parser.add_argument('--seed', default=776, type=int)
     parser.add_argument('--device', default=None, type=str)
+    parser.add_argument('--posf', default='piecewise_linear_mask', type=str, help='specifies the position awareness function: \
+        nill, piecewise_linear_mask, piecewise_constant_mask, piecewise_harmonic_mask, piecewise_quadratic_mask, piecewise_sqrt_mask, \
+            piecewise_exponential_mask, piecewise_sigmoid_mask, piecewise_tanh_mask, piecewise_cosine_mask, piecewise_gaussian_mask')
     opt = parser.parse_args()
 
     model_classes = {

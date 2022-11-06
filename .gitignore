@@ -7,3 +7,5 @@ __pycache__/
 glove.840B.300d.txt
 log/
 .DS_Store
+layers/__pycache__/
+models/__pycache__/

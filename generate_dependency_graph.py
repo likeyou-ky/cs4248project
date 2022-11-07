@@ -35,7 +35,8 @@ def process(filename):
         aspect = lines[i + 1].lower().strip()
         adj_matrix = dependency_adj_matrix(text_left+' '+aspect+' '+text_right)
         idx2graph[i] = adj_matrix
-    pickle.dump(idx2graph, fout)        
+    pickle.dump(idx2graph, fout)  
+    print('done !!!', filename)      
     fout.close() 
 
 if __name__ == '__main__':

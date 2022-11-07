@@ -1,2 +1,11 @@
+*.log
+*.raw.graph
+*.raw.graph_sdat
+*.raw.sentic
+__pycache__/
+*.pkl
+glove.840B.300d.txt
+log/
+.DS_Store
 /state_dict/*.pkl
 /*.log

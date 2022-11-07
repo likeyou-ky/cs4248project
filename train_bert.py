@@ -240,7 +240,7 @@ def main():
                 },
     }
     input_colses = {
-        'senticgcn_bert': ['text_bert_indices', 'text_indices', 'aspect_indices', 'bert_segments_indices', 'left_indices', 'sdat_graph'],
+        'senticgcn_bert': ['text_bert_indices', 'text_indices', 'aspect_indices', 'bert_segments_indices', 'left_indices', 'dependency_graph'],
     }
     initializers = {
         'xavier_uniform_': torch.nn.init.xavier_uniform_,

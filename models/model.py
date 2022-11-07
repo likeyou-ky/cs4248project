@@ -3,10 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from layers.dynamic_rnn import DynamicLSTM
 from layers.attention import Attention, NoQueryAttention
-from common.convolution import GraphConvolution
-from common.posf import position_weight
-from common.mask import mask
-from common.activation import actf
+from common import GraphConvolution, position_weight, mask, actf
 
 class AFFGCN(nn.Module):
     def __init__(self, embedding_matrix, opt):

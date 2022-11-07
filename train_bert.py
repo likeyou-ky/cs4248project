@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-# ------------------
-# @Author: BinLiang
-# @Mail: bin.liang@stu.hit.edu.cn
-# ------------------
 
 import logging
 import argparse
@@ -207,6 +203,11 @@ def main():
     parser.add_argument('--posf', default='piecewise_linear_mask', type=str, help='specifies the position awareness function: \
         nill, piecewise_linear_mask, piecewise_constant_mask, piecewise_harmonic_mask, piecewise_quadratic_mask, piecewise_sqrt_mask, \
             piecewise_exponential_mask, piecewise_sigmoid_mask, piecewise_tanh_mask, piecewise_cosine_mask, piecewise_gaussian_mask')
+    parser.add_argument('--mask', default='uniform_aspect_mask_bert', type=str, help='specifies the mask function for the aspect phrase')
+    parser.add_argument('--isftext', default='True', type=str, help='specifies whether to convert the text embeddings \
+        to float32 in the graph convolution layer. Default True for Bert.')
+    parser.add_argument('--nlayers', default=2, type=int, help='specifies the number of layers in the graph convolution layer for the GCN')
+    parser.add_argument('--actf', default='relu', type=str, help='specifies the activation function in the graph convolution layer for the GCN')
     opt = parser.parse_args()
 
     if opt.seed is not None:
@@ -240,12 +241,18 @@ def main():
                 },
     }
     input_colses = {
-        'senticgcn_bert': ['text_bert_indices', 'text_indices', 'aspect_indices', 'bert_segments_indices', 'left_indices', 'sdat_graph'],
+        # gg branch @ nov4
+        #'senticgcn_bert': ['text_bert_indices', 'text_indices', 'aspect_indices', 'bert_segments_indices', 'left_indices', 'sdat_graph'],
+        'senticgcn_bert': ['text_bert_indices', 'text_indices', 'aspect_indices', 'bert_segments_indices', 'left_indices', 'dependency_graph'],
     }
     initializers = {
         'xavier_uniform_': torch.nn.init.xavier_uniform_,
         'xavier_normal_': torch.nn.init.xavier_normal_,
         'orthogonal_': torch.nn.init.orthogonal_,
+        # added by ky@nov5
+        'kaiming_uniform_': torch.nn.init.kaiming_uniform_,
+        # added by ky@nov5
+        'kaiming_normal_': torch.nn.init.kaiming_normal_,
     }
     optimizers = {
         'adadelta': torch.optim.Adadelta,  # default lr=1.0

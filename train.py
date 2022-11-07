@@ -189,6 +189,7 @@ if __name__ == '__main__':
     parser.add_argument('--nlayers', default=2, type=int, help='specifies the number of layers in the graph convolution layer for the GCN')
     parser.add_argument('--actf', default='relu', type=str, help='specifies the activation function in the graph convolution layer for the GCN. \
         See details of available functions at https://pytorch.org/docs/stable/nn.functional.html')
+    parser.add_argument('--graphtype', default='sdat_graph', type=str, help='specifies the type of graph to be used. (sdat_graph, dependency_graph)')
     opt = parser.parse_args()
 
     model_classes = {
@@ -204,7 +205,8 @@ if __name__ == '__main__':
         'senticgcn': ['text_indices', 'aspect_indices', 'left_indices', 'sdat_graph'],
         'sdgcn': ['text_indices', 'aspect_indices', 'left_indices', 'sentic_graph', 'sdat_graph'],
         'affgcn': ['text_indices', 'aspect_indices', 'left_indices', 'sentic_graph'],
-        'senticgcnglove': ['text_indices', 'aspect_indices', 'left_indices', 'sdat_graph']
+        'senticgcnglove': ['text_indices', 'aspect_indices', 'left_indices', 'sdat_graph'],
+        'dependency_graph': ['text_indices', 'aspect_indices', 'segments_indices', 'left_indices', 'dependency_graph'],
     }
     initializers = {
         'xavier_uniform_': torch.nn.init.xavier_uniform_,
@@ -220,6 +222,10 @@ if __name__ == '__main__':
         'rmsprop': torch.optim.RMSprop,  # default lr=0.01
         'sgd': torch.optim.SGD,
     }
+    if opt.graphtype == "sdat_graph":
+        opt.inputs_cols = input_colses[opt.model_name]
+    else:
+        opt.inputs_cols = input_colses["dependency_graph"]
     opt.model_class = model_classes[opt.model_name]
     opt.inputs_cols = input_colses[opt.model_name]
     opt.initializer = initializers[opt.initializer]

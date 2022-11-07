@@ -207,7 +207,8 @@ def main():
     parser.add_argument('--isftext', default='True', type=str, help='specifies whether to convert the text embeddings \
         to float32 in the graph convolution layer. Default True for Bert.')
     parser.add_argument('--nlayers', default=2, type=int, help='specifies the number of layers in the graph convolution layer for the GCN')
-    parser.add_argument('--actf', default='relu', type=str, help='specifies the activation function in the graph convolution layer for the GCN')
+    parser.add_argument('--actf', default='relu', type=str, help='specifies the activation function in the graph convolution layer for the GCN. \
+        See details of available functions at https://pytorch.org/docs/stable/nn.functional.html')
     opt = parser.parse_args()
 
     if opt.seed is not None:

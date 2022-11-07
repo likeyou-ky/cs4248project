@@ -248,7 +248,9 @@ def main():
         'xavier_uniform_': torch.nn.init.xavier_uniform_,
         'xavier_normal_': torch.nn.init.xavier_normal_,
         'orthogonal_': torch.nn.init.orthogonal_,
+        # added by ky@nov5
         'kaiming_uniform_': torch.nn.init.kaiming_uniform_,
+        # added by ky@nov5
         'kaiming_normal_': torch.nn.init.kaiming_normal_,
     }
     optimizers = {

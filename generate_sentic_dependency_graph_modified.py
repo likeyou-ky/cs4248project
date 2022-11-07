@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import spacy
-from common.fio import load_sentic_word, writefiles
+from common import writefiles
 nlp = spacy.load('en_core_web_sm')
 aspect_w = 0.5
 sentic_w = 0.5

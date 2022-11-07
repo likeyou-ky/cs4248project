@@ -8,4 +8,3 @@ glove.840B.300d.txt
 log/
 .DS_Store
 /state_dict/*.pkl
-/*.log

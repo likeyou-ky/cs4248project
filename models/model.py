@@ -11,7 +11,10 @@ class AFFGCN(nn.Module):
         self.opt = opt
         self.embed = nn.Embedding.from_pretrained(torch.tensor(embedding_matrix, dtype=torch.float))
         self.text_lstm = DynamicLSTM(opt.embed_dim, opt.hidden_dim, num_layers=1, batch_first=True, bidirectional=True)
-        self.gclayers = {i: GraphConvolution(2*opt.hidden_dim, 2*opt.hidden_dim) for i in range(1, opt.nlayers+1)}
+        isftext = True if opt.isftext == 'True' else False
+        self.gclayers = nn.ModuleList()
+        for i in range(opt.nlayers):
+            self.gclayers.append(GraphConvolution(opt.hidden_dim*2, opt.hidden_dim*2, isfText=isftext))
         self.fc = nn.Linear(2*opt.hidden_dim, opt.polarities_dim)
         self.text_embed_dropout = nn.Dropout(0.3)
 
@@ -31,8 +34,8 @@ class AFFGCN(nn.Module):
         text = self.text_embed_dropout(text)
         x, (_, _) = self.text_lstm(text, text_len)
         text_out = x.clone().detach()
-        for k, v in self.gclayers.items():
-            x = actf(self.opt.actf)(v(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        for layer in self.gclayers:
+            x = actf(self.opt.actf)(layer(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))
         alpha = F.softmax(alpha_mat.sum(1, keepdim=True), dim=2)
@@ -47,7 +50,10 @@ class ATTSenticGCN(nn.Module):
         self.embed = nn.Embedding.from_pretrained(torch.tensor(embedding_matrix, dtype=torch.float))
         self.text_lstm = DynamicLSTM(opt.embed_dim, opt.hidden_dim, num_layers=1, batch_first=True, bidirectional=True)
         self.aspect_lstm = DynamicLSTM(opt.embed_dim, opt.hidden_dim, num_layers=1, batch_first=True, bidirectional=True)
-        self.gclayers = {i: GraphConvolution(2*opt.hidden_dim, 2*opt.hidden_dim) for i in range(1, opt.nlayers+1)}
+        isftext = True if opt.isftext == 'True' else False
+        self.gclayers = nn.ModuleList()
+        for i in range(opt.nlayers):
+            self.gclayers.append(GraphConvolution(2*opt.hidden_dim, 2*opt.hidden_dim, isfText=isftext))
         self.fc = nn.Linear(2*opt.hidden_dim, opt.polarities_dim)
         self.text_embed_dropout = nn.Dropout(0.3)
         self.self_att = Attention(opt.embed_dim*2, score_function='bi_linear')
@@ -75,8 +81,8 @@ class ATTSenticGCN(nn.Module):
         _, score = self.self_att(x, aspect)
         text_out = x.clone().detach()
         adj = torch.mul(adj, score)
-        for k, v in self.gclayers.items():
-            x = actf(self.opt.actf)(v(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        for layer in self.gclayers:
+            x = actf(self.opt.actf)(layer(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))
         alpha = F.softmax(alpha_mat.sum(1, keepdim=True), dim=2)
@@ -105,7 +111,10 @@ class SDGCN(nn.Module):
         self.opt = opt
         self.embed = nn.Embedding.from_pretrained(torch.tensor(embedding_matrix, dtype=torch.float))
         self.text_lstm = DynamicLSTM(opt.embed_dim, opt.hidden_dim, num_layers=1, batch_first=True, bidirectional=True)
-        self.gclayers = {i: GraphConvolution(2*opt.hidden_dim, 2*opt.hidden_dim) for i in range(1, opt.nlayers+1)}
+        isftext = True if opt.isftext == 'True' else False
+        self.gclayers = nn.ModuleList()
+        for i in range(opt.nlayers):
+            self.gclayers.append(GraphConvolution(2*opt.hidden_dim, 2*opt.hidden_dim, isfText=isftext))
         self.fc = nn.Linear(2*opt.hidden_dim, opt.polarities_dim)
         self.dfc = nn.Linear(4*opt.hidden_dim, opt.polarities_dim)
         self.text_embed_dropout = nn.Dropout(0.3)
@@ -126,8 +135,8 @@ class SDGCN(nn.Module):
         text = self.text_embed_dropout(text)
         x, (_, _) = self.text_lstm(text, text_len)
         text_out = x.clone().detach()
-        for k, v in self.gclayers.items():
-            x = actf(self.opt.actf)(v(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        for layer in self.gclayers:
+            x = actf(self.opt.actf)(layer(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))
         alpha = F.softmax(alpha_mat.sum(1, keepdim=True), dim=2)
@@ -142,7 +151,9 @@ class SenticGCN(nn.Module):
         self.embed = nn.Embedding.from_pretrained(torch.tensor(embedding_matrix, dtype=torch.float))
         self.text_lstm = DynamicLSTM(opt.embed_dim, opt.hidden_dim, num_layers=1, batch_first=True, bidirectional=True)
         isftext = True if opt.isftext == 'True' else False
-        self.gclayers = {i: GraphConvolution(2*opt.hidden_dim, 2*opt.hidden_dim, isfText=isftext) for i in range(1, opt.nlayers+1)}
+        self.gclayers = nn.ModuleList()
+        for i in range(opt.nlayers):
+            self.gclayers.append(GraphConvolution(2*opt.hidden_dim, 2*opt.hidden_dim, isfText=isftext))
         self.fc = nn.Linear(2*opt.hidden_dim, opt.polarities_dim)
         self.text_embed_dropout = nn.Dropout(0.3)
 
@@ -162,8 +173,8 @@ class SenticGCN(nn.Module):
         text = self.text_embed_dropout(text)
         x, (_, _) = self.text_lstm(text, text_len)
         text_out = x.clone().detach()
-        for k, v in self.gclayers.items():
-            x = actf(self.opt.actf)(v(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        for layer in self.gclayers:
+            x = actf(self.opt.actf)(layer(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))
         alpha = F.softmax(alpha_mat.sum(1, keepdim=True), dim=2)
@@ -180,10 +191,9 @@ class SenticGCN_BERT(nn.Module):
         #self.embed = nn.Embedding.from_pretrained(torch.tensor(embedding_matrix, dtype=torch.float))
         #self.text_lstm = DynamicLSTM(768, opt.hidden_dim, num_layers=1, batch_first=True, bidirectional=True)
         isftext = True if opt.isftext == 'True' else False
-        self.gc1 = GraphConvolution(opt.bert_dim, opt.bert_dim, isfText=isftext)
-        self.gc2 = GraphConvolution(opt.bert_dim, opt.bert_dim, isfText=isftext)
-        self.gc3 = GraphConvolution(opt.bert_dim, opt.bert_dim, isfText=isftext)
-        #self.gclayers = {i: GraphConvolution(opt.bert_dim, opt.bert_dim, isfText=isftext) for i in range(1, opt.nlayers+1)}
+        self.gclayers = nn.ModuleList()
+        for i in range(opt.nlayers):
+            self.gclayers.append(GraphConvolution(opt.bert_dim, opt.bert_dim, isfText=isftext))
         self.fc = nn.Linear(opt.bert_dim, opt.polarities_dim)
         self.text_embed_dropout = nn.Dropout(0.3)
     
@@ -209,11 +219,8 @@ class SenticGCN_BERT(nn.Module):
         pooled_output = od['pooler_output']
         x = encoder_layer
         text_out = x.clone().detach()
-        #for k, v in self.gclayers.items():
-        #    x = actf(self.opt.actf)(v(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        x = actf(self.opt.actf)(self.gc1(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        x = actf(self.opt.actf)(self.gc2(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        x = actf(self.opt.actf)(self.gc3(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        for layer in self.gclayers:
+            x = actf(self.opt.actf)(layer(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))
         alpha = F.softmax(alpha_mat.sum(1, keepdim=True), dim=2)
@@ -227,7 +234,9 @@ class SenticGCNGLOVE(nn.Module):
         self.opt = opt
         self.embed = nn.Embedding.from_pretrained(torch.tensor(embedding_matrix, dtype=torch.float))
         isftext = True if opt.isftext == 'True' else False
-        self.gclayers = {i: GraphConvolution(opt.hidden_dim, opt.hidden_dim, isfText=isftext) for i in range(1, opt.nlayers+1)}
+        self.gclayers = nn.ModuleList()
+        for i in range(opt.nlayers):
+            self.gclayers.append(GraphConvolution(opt.hidden_dim, opt.hidden_dim, isfText=isftext))
         self.fc = nn.Linear(opt.hidden_dim, opt.polarities_dim)
         self.text_embed_dropout = nn.Dropout(0.3)
 
@@ -245,9 +254,8 @@ class SenticGCNGLOVE(nn.Module):
         aspect_double_idx = torch.cat([left_len.unsqueeze(1), (left_len+aspect_len-1).unsqueeze(1)], dim=1)
         x = self.embed(text_indices)
         text = x.clone().detach()
-        for k, v in self.gclayers.items():
-            x = actf(self.opt.actf)(v(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-
+        for layer in self.gclayers:
+            x = actf(self.opt.actf)(layer(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text.transpose(1, 2))
         alpha = F.softmax(alpha_mat.sum(1, keepdim=True), dim=2)

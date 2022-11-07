@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from common.fio import graph_dep_adj_mat, writefiles
+from common import graph_dep_adj_mat, writefiles
 
 # dependency graph based on text. Unrelated to sentic net or sentiment aspects.
 if __name__ == '__main__':

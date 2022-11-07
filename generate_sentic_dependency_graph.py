@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import spacy
-from common.fio import writefiles
+from common import writefiles
 nlp = spacy.load('en_core_web_sm')
 
 # customized function for graph_sentic_aspect_dep_adj_matrix

@@ -36,6 +36,7 @@ def process(filename):
         adj_matrix = dependency_adj_matrix(text_left+' '+aspect+' '+text_right)
         idx2graph[i] = adj_matrix
     pickle.dump(idx2graph, fout)  
+    # added by yb@nov4
     print('done !!!', filename)      
     fout.close() 
 

@@ -33,8 +33,7 @@ class AFFGCN(nn.Module):
         text_out = x.clone().detach()
         for k, v in self.gclayers.items():
             x = actf(self.opt.actf)(v(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        # commented out by CP John @ Nov 2
-        # x = self.mask(x, aspect_double_idx)
+        x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))
         alpha = F.softmax(alpha_mat.sum(1, keepdim=True), dim=2)
         x = torch.matmul(alpha, text_out).squeeze(1) # batch_size x 2*hidden_dim
@@ -73,16 +72,12 @@ class ATTSenticGCN(nn.Module):
         aspect_len = torch.tensor(torch.sum(aspect_indices != 0, dim=-1), dtype=torch.float).to(self.opt.device)
         aspect = torch.div(torch.sum(aspect, dim=1), aspect_len.view(aspect_len.size(0), 1))
         x, (_, _) = self.text_lstm(text, text_len)
-        #print('text_out:', text_out.shape)
-        #print('aspect:', aspect.shape)
         _, score = self.self_att(x, aspect)
         text_out = x.clone().detach()
-        #print('score:', score)
         adj = torch.mul(adj, score)
         for k, v in self.gclayers.items():
             x = actf(self.opt.actf)(v(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        # commented out by CP John @ Nov 2
-        # x = self.mask(x, aspect_double_idx)
+        x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))
         alpha = F.softmax(alpha_mat.sum(1, keepdim=True), dim=2)
         x = torch.matmul(alpha, text_out).squeeze(1) # batch_size x 2*hidden_dim
@@ -133,23 +128,11 @@ class SDGCN(nn.Module):
         text_out = x.clone().detach()
         for k, v in self.gclayers.items():
             x = actf(self.opt.actf)(v(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        # commented out by CP John @ Nov 2
-        # x = self.mask(x, aspect_double_idx)
+        x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))
         alpha = F.softmax(alpha_mat.sum(1, keepdim=True), dim=2)
         x = torch.matmul(alpha, text_out).squeeze(1) # batch_size x 2*hidden_dim
-
-        #x_d = actf(self.opt.actf)(self.gc3(self.position_weight(text_out, aspect_double_idx, text_len, aspect_len), d_adj))
-        #x_d = actf(self.opt.actf)(self.gc4(self.position_weight(x_d, aspect_double_idx, text_len, aspect_len), d_adj))
-        #x_d = self.mask(x_d, aspect_double_idx)
-        #alpha_mat_d = torch.matmul(x_d, text_out.transpose(1, 2))
-        #alpha_d = F.softmax(alpha_mat_d.sum(1, keepdim=True), dim=2)
-        #x_d = torch.matmul(alpha_d, text_out).squeeze(1) # batch_size x 2*hidden_dim
-
-        #ax = torch.cat((x, x_d), dim=-1)
-
         output = self.fc(x)
-        #output = self.dfc(ax)
         return output
 
 class SenticGCN(nn.Module):
@@ -181,8 +164,7 @@ class SenticGCN(nn.Module):
         text_out = x.clone().detach()
         for k, v in self.gclayers.items():
             x = actf(self.opt.actf)(v(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        # commented out by CP John @ Nov 2
-        # x = self.mask(x, aspect_double_idx)
+        x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))
         alpha = F.softmax(alpha_mat.sum(1, keepdim=True), dim=2)
         x = torch.matmul(alpha, text_out).squeeze(1) # batch_size x 2*hidden_dim
@@ -227,8 +209,7 @@ class SenticGCN_BERT(nn.Module):
         text_out = x.clone().detach()
         for k, v in self.gclayers.items():
             x = actf(self.opt.actf)(v(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        # commented out by CP John @ Nov 2
-        # x = self.mask(x, aspect_double_idx)
+        x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))
         alpha = F.softmax(alpha_mat.sum(1, keepdim=True), dim=2)
         x = torch.matmul(alpha, text_out).squeeze(1) # batch_size x 2*hidden_dim

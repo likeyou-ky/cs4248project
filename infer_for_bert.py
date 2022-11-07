@@ -123,6 +123,7 @@ if __name__ == '__main__':
     opt.mask = 'uniform_aspect_mask'
     opt.isftext = 'True'
     opt.nlayers = 2
+    opt.actf = 'relu'
     opt.pretrained_bert_name = 'bert-base-uncased'
     opt.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 

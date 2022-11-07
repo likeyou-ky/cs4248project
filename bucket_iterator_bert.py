@@ -21,9 +21,6 @@ class BucketIterator(object):
             sorted_data = data
         batches = []
         for i in range(num_batch):
-            #for info in sorted_data[i*batch_size:(i+1)*batch_size]:
-                #print(info)
-                #print('#'*30)
             batches.append(self.pad_data(sorted_data[i*batch_size : (i+1)*batch_size]))
         return batches
 

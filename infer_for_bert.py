@@ -120,6 +120,8 @@ if __name__ == '__main__':
     opt.polarities_dim = 3
     opt.max_seq_len = 85
     opt.posf = 'piecewise_linear_mask'
+    opt.mask = 'uniform_aspect_mask'
+    opt.isftext = 'True'
     opt.pretrained_bert_name = 'bert-base-uncased'
     opt.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 

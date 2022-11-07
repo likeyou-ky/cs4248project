@@ -10,9 +10,7 @@ import torch.nn as nn
 from bucket_iterator import BucketIterator
 from sklearn import metrics
 from data_utils import ABSADatesetReader
-from models import LSTM, SenticGCN, ATTSenticGCN, SDGCN, AFFGCN
-    # added by yb@nov4
-from models.senticgcn_glove import SenticGCNGLOVE
+from models import LSTM, SenticGCN, ATTSenticGCN, SDGCN, AFFGCN, SenticGCNGLOVE
 
 class Instructor:
     def __init__(self, opt):
@@ -185,6 +183,9 @@ if __name__ == '__main__':
     parser.add_argument('--posf', default='piecewise_linear_mask', type=str, help='specifies the position awareness function: \
         nill, piecewise_linear_mask, piecewise_constant_mask, piecewise_harmonic_mask, piecewise_quadratic_mask, piecewise_sqrt_mask, \
             piecewise_exponential_mask, piecewise_sigmoid_mask, piecewise_tanh_mask, piecewise_cosine_mask, piecewise_gaussian_mask')
+    parser.add_argument('--mask', default='uniform_aspect_mask', type=str, help='specifies the mask function for the aspect phrase')
+    parser.add_argument('--isftext', default='True', type=str, help='specifies whether to convert the text embeddings \
+        to float32 in the graph convolution layer. Default True for Bert.')
     opt = parser.parse_args()
 
     model_classes = {
@@ -193,7 +194,6 @@ if __name__ == '__main__':
         'attsenticgcn': ATTSenticGCN,
         'sdgcn': SDGCN,
         'affgcn': AFFGCN,
-    # added by yb@nov4
         'senticgcnglove': SenticGCNGLOVE
     }
     input_colses = {
@@ -201,7 +201,6 @@ if __name__ == '__main__':
         'senticgcn': ['text_indices', 'aspect_indices', 'left_indices', 'sdat_graph'],
         'sdgcn': ['text_indices', 'aspect_indices', 'left_indices', 'sentic_graph', 'sdat_graph'],
         'affgcn': ['text_indices', 'aspect_indices', 'left_indices', 'sentic_graph'],
-    # added by yb@nov4
         'senticgcnglove': ['text_indices', 'aspect_indices', 'left_indices', 'sdat_graph']
     }
     initializers = {

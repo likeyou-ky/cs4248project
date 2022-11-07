@@ -99,6 +99,7 @@ class SDGCN(nn.Module):
         #x = F.relu(self.gc5(self.position_weight(x, aspect_double_idx, text_len, aspect_len), d_adj))
         #x = F.relu(self.gc6(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
 
+        # commented out by CP John @ Nov 2
         # x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))
         alpha = F.softmax(alpha_mat.sum(1, keepdim=True), dim=2)

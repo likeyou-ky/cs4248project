@@ -85,6 +85,7 @@ class SenticGCN(nn.Module):
         text_out, (_, _) = self.text_lstm(text, text_len)
         x = F.relu(self.gc1(self.position_weight(text_out, aspect_double_idx, text_len, aspect_len), adj))
         x = F.relu(self.gc2(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        # commented out by CP John @ Nov 2
         # x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))
         alpha = F.softmax(alpha_mat.sum(1, keepdim=True), dim=2)

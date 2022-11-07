@@ -7,7 +7,7 @@ import random
 import numpy
 import torch
 import torch.nn as nn
-from bucket_iterator import BucketIterator
+from common import BucketIterator
 from sklearn import metrics
 from data_utils import ABSADatesetReader
 from models import LSTM, SenticGCN, ATTSenticGCN, SDGCN, AFFGCN, SenticGCNGLOVE

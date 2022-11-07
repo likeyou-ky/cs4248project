@@ -1,17 +1,12 @@
 # -*- coding: utf-8 -*-
-
 import os
 import pickle
 import torch
 import torch.nn.functional as F
-import argparse
 
-from data_utils import ABSADataset, Tokenizer, build_embedding_matrix
-from data_utils import ABSADatesetReader
-from bucket_iterator import BucketIterator
+from data_utils import ABSADatesetReader, Tokenizer, build_embedding_matrix
 from models import LSTM, SenticGCN, SenticGCN_BERT
 from generate_sentic_dependency_graph import load_sentic_word, dependency_adj_matrix
-
 
 class Inferer:
     """A simple inference example"""

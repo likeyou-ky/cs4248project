@@ -2,10 +2,13 @@
 
 import numpy as np
 import spacy
+from common import writefiles
 import pickle
 
 nlp = spacy.load('en_core_web_sm')
 
+
+# customized function for graph_sentic_aspect_dep_adj_matrix
 
 def load_sentic_word():
     """
@@ -84,6 +87,7 @@ def process(filename):
     fout.close() 
 
 if __name__ == '__main__':
+    writefiles(dependency_adj_matrix, suffix='.graph_sdat', graph_dep_type=3)
     process('./datasets/acl-14-short-data/train.raw')
     process('./datasets/acl-14-short-data/test.raw')
     process('./datasets/semeval14/restaurant_train.raw')

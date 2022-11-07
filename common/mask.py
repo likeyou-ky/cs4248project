@@ -16,12 +16,20 @@ def mask_general(opt, x, aspect_double_idx, func):
     for i in range(batch_size):
         aspect_start = aspect_double_idx[i,0]
         aspect_end = aspect_double_idx[i,1]
-        func(aspect_start, aspect_end, seq_len, mask[i])
+        func(aspect_start, aspect_end, seq_len, opt.max_seq_len, mask[i])
     mask = torch.tensor(mask).unsqueeze(2).float().to(opt.device)
     return mask*x
 
+def uniform_aspect_mask_bert(aspect_start, aspect_end, seq_len, max_seq_len, mask):
+    for j in range(aspect_start):
+        mask.append(0)
+    for j in range(aspect_start, min(aspect_end+1, max_seq_len)):
+        mask.append(1)
+    for j in range(min(aspect_end+1, max_seq_len), seq_len):
+        mask.append(0)
+
 # uniform aspect mask
-def uniform_aspect_mask(aspect_start, aspect_end, seq_len, mask):
+def uniform_aspect_mask(aspect_start, aspect_end, seq_len, max_seq_len, mask):
     for j in range(aspect_start):
         mask.append(0)
     for j in range(aspect_start, aspect_end+1):

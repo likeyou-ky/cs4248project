@@ -203,7 +203,7 @@ def main():
     parser.add_argument('--posf', default='piecewise_linear_mask', type=str, help='specifies the position awareness function: \
         nill, piecewise_linear_mask, piecewise_constant_mask, piecewise_harmonic_mask, piecewise_quadratic_mask, piecewise_sqrt_mask, \
             piecewise_exponential_mask, piecewise_sigmoid_mask, piecewise_tanh_mask, piecewise_cosine_mask, piecewise_gaussian_mask')
-    parser.add_argument('--mask', default='uniform_aspect_mask', type=str, help='specifies the mask function for the aspect phrase')
+    parser.add_argument('--mask', default='uniform_aspect_mask_bert', type=str, help='specifies the mask function for the aspect phrase')
     parser.add_argument('--isftext', default='True', type=str, help='specifies whether to convert the text embeddings \
         to float32 in the graph convolution layer. Default True for Bert.')
     parser.add_argument('--nlayers', default=2, type=int, help='specifies the number of layers in the graph convolution layer for the GCN')

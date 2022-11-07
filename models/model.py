@@ -180,7 +180,10 @@ class SenticGCN_BERT(nn.Module):
         #self.embed = nn.Embedding.from_pretrained(torch.tensor(embedding_matrix, dtype=torch.float))
         #self.text_lstm = DynamicLSTM(768, opt.hidden_dim, num_layers=1, batch_first=True, bidirectional=True)
         isftext = True if opt.isftext == 'True' else False
-        self.gclayers = {i: GraphConvolution(opt.bert_dim, opt.bert_dim, isfText=isftext) for i in range(1, opt.nlayers+1)}
+        self.gc1 = GraphConvolution(opt.bert_dim, opt.bert_dim, isfText=isftext)
+        self.gc2 = GraphConvolution(opt.bert_dim, opt.bert_dim, isfText=isftext)
+        self.gc3 = GraphConvolution(opt.bert_dim, opt.bert_dim, isfText=isftext)
+        #self.gclayers = {i: GraphConvolution(opt.bert_dim, opt.bert_dim, isfText=isftext) for i in range(1, opt.nlayers+1)}
         self.fc = nn.Linear(opt.bert_dim, opt.polarities_dim)
         self.text_embed_dropout = nn.Dropout(0.3)
     
@@ -204,11 +207,13 @@ class SenticGCN_BERT(nn.Module):
         od = self.bert(text_bert_indices, token_type_ids=bert_segments_ids, output_hidden_states=None)
         encoder_layer = od['last_hidden_state']
         pooled_output = od['pooler_output']
-
         x = encoder_layer
         text_out = x.clone().detach()
-        for k, v in self.gclayers.items():
-            x = actf(self.opt.actf)(v(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        #for k, v in self.gclayers.items():
+        #    x = actf(self.opt.actf)(v(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        x = actf(self.opt.actf)(self.gc1(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        x = actf(self.opt.actf)(self.gc2(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        x = actf(self.opt.actf)(self.gc3(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))
         alpha = F.softmax(alpha_mat.sum(1, keepdim=True), dim=2)

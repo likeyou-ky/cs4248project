@@ -120,7 +120,7 @@ if __name__ == '__main__':
     opt.polarities_dim = 3
     opt.max_seq_len = 85
     opt.posf = 'piecewise_linear_mask'
-    opt.mask = 'uniform_aspect_mask'
+    opt.mask = 'uniform_aspect_mask_bert'
     opt.isftext = 'True'
     opt.nlayers = 2
     opt.actf = 'relu'

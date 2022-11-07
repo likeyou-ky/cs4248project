@@ -39,7 +39,7 @@ def graph_sentic_dep_adj_mat(text, senticNet):
 
     return matrix
 
-def graph_sentic_aspect_dep_adj_matrix(text, aspect, senticNet):
+def graph_sentic_aspect_dep_adj_mat(text, aspect, senticNet):
     word_list = text.split()
     seq_len = len(word_list)
     matrix = np.zeros((seq_len, seq_len)).astype('float32')

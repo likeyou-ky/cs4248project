@@ -1,2 +1,0 @@
-epochs: 8
-test_acc: 0.8509, test_f1: 0.7776

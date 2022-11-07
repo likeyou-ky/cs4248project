@@ -11,12 +11,15 @@ class GraphConvolution(nn.Module):
         self.out_features = out_features
         self.is_f_text = isfText
         self.weight = nn.Parameter(torch.FloatTensor(in_features, out_features))
+        print(f'W CREATION location: {"Cuda" if self.weight.is_cuda else "CPU"}')
         if bias:
             self.bias = nn.Parameter(torch.FloatTensor(out_features))
         else:
             self.register_parameter('bias', None)
 
     def forward(self, text, adj):
+        print(f'TEXT location: {"Cuda" if text.is_cuda else "CPU"}')
+        print(f'W location: {"Cuda" if self.weight.is_cuda else "CPU"}')
         if self.is_f_text:
             text = text.to(torch.float32)
         hidden = torch.matmul(text, self.weight)

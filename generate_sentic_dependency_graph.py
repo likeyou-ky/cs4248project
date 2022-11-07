@@ -28,30 +28,45 @@ def dependency_adj_matrix(text, aspect, senticNet):
     # https://spacy.io/docs/usage/processing-text
     document = nlp(text)
     seq_len = len(text.split())
-    matrix = np.zeros((seq_len, seq_len)).astype('float32')
-    #print('='*20+':')
-    #print(document)
-    #print(senticNet)
-    
+    matrix = np.ones((seq_len, seq_len)).astype('float32')
+    # print('='*20+':')
+    # print(document)
+    # print(senticNet)
+
     for token in document:
-        #print('token:', token)
         if str(token) in senticNet:
-            sentic = float(senticNet[str(token)]) + 1
+            sentic = float(senticNet[str(token)])
         else:
             sentic = 0
         if str(token) in aspect:
             sentic += 1
         if token.i < seq_len:
-            matrix[token.i][token.i] = 1 * sentic
+            matrix[token.i][token.i] = 1 * sentic + sentic
             # https://spacy.io/docs/api/token
-            for child in token.children:
-                if str(child) in aspect:
-                    sentic += 1
-                if child.i < seq_len:
-                    matrix[token.i][child.i] = 1 * sentic
-                    matrix[child.i][token.i] = 1 * sentic
-
+            if str(token) not in aspect:
+                for child in token.children:
+                    if str(child) in senticNet:
+                        s = float(senticNet[str(child)])
+                    else:
+                        s = 0
+                    if str(child) in aspect:
+                        s += 1
+                    if child.i < seq_len:
+                        matrix[token.i][child.i] = 1 * sentic + s
+                        matrix[child.i][token.i] = 1 * sentic + s
+            else:
+                for child in document:
+                    if str(child) in senticNet:
+                        s = float(senticNet[str(child)])
+                    else:
+                        s = 0
+                    if str(child) in aspect:
+                        s += 1
+                    if child.i < seq_len:
+                        matrix[token.i][child.i] = 1 * sentic + s
+                        matrix[child.i][token.i] = 1 * sentic + s
     return matrix
+
 
 def process(filename):
     senticNet = load_sentic_word()
@@ -59,15 +74,16 @@ def process(filename):
     lines = fin.readlines()
     fin.close()
     idx2graph = {}
-    fout = open(filename+'.graph_sdat', 'wb')
+    fout = open(filename + '.graph_sdat', 'wb')
     for i in range(0, len(lines), 3):
         text_left, _, text_right = [s.lower().strip() for s in lines[i].partition("$T$")]
         aspect = lines[i + 1].lower().strip()
-        adj_matrix = dependency_adj_matrix(text_left+' '+aspect+' '+text_right, aspect, senticNet)
+        adj_matrix = dependency_adj_matrix(text_left + ' ' + aspect + ' ' + text_right, aspect, senticNet)
         idx2graph[i] = adj_matrix
     pickle.dump(idx2graph, fout)
-    print('done !!!'+filename)
-    fout.close() 
+    print('done !!!' + filename)
+    fout.close()
+
 
 if __name__ == '__main__':
     process('./datasets/acl-14-short-data/train.raw')

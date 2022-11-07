@@ -1,29 +1,32 @@
-# Sentic GCN: A Simple But Effective Framework for Aspect-Based Sentiment Analysis via Affective Knowledge Enhanced GCN
+# Modification on Sentic GCN
 # Introduction
-This repository was used in our paper:  
+This repository was used in this paper:  
   
 [**Aspect-Based Sentiment Analysis via Affective Knowledge Enhanced Graph Convolutional Networks**](https://www.sentic.net/sentic-gcn.pdf)
 <br>
 Bin Liang, Hang Su, Lin Gui, Erik Cambria, Ruifeng Xu. *Knowledge-Based Systems, 2021: 107643.*
   
-Please cite our paper and kindly give a star for this repository if you use this code.
+Please cite this paper and kindly give a star for this repository if you use this code.
 
 ## Requirements
 
-* Python 3.6
-* PyTorch 1.0.0
-* SpaCy 2.0.18
-* numpy 1.15.4
+| Package Name | Version |
+| --- | --- |
+| Python | 3.10 |
+| PyTorch | 1.12.1 |
+| SpaCy | 3.4.2 |
+| numpy | 1.23.1 |
+| Transformers | 4.24.0 |
+| ipdb | 0.13.9 |
 
 ## Usage
 
-* Install [SpaCy](https://spacy.io/) package and language models with
+* Install packages with
 ```bash
 pip install spacy
-```
-and
-```bash
-python -m spacy download en
+python -m spacy download en_core_web_sm
+pip install transformers
+pip install ipdb
 ```
 * Generate dependency graph with
 ```bash
@@ -42,7 +45,6 @@ python generate_sentic_dependency_graph.py
 * Train with command, optional arguments could be found in [train.py](/train.py) \& [train_bert.py](/train_bert.py)
 * Please tune the argument of *--seed* for better performance
 
-
 * Run senticgcn: ```./run_senticgcn.sh```
 
 * Run senticgcn_bert: ```./run_senticgcn_bert.sh```
@@ -53,7 +55,24 @@ python generate_sentic_dependency_graph.py
 * Please run ```python infer.py``` for the testing of non-BERT models.
 * Please run ```python infer_for_bert.py``` for the testing of BERT-based models.
 
-
+## Comparing different Fs
+* Comparing different Fs using the models saved in **state_dict**. Results will be saved in **posf_logs**.
+* Please run ```./test_posf.sh```. You can modify it if needed.
+* Note: This operation takes huge amounts of time by default.
+* Each F uses a different mash to assign position-aware weights. Pre-tested result for reference:
+  | Mask Type | Epochs Needed | test_acc | test_f1 |
+  | --- | --- | --- | --- |
+  | nill | 9 | 0.8545 | 0.7815 |
+  | linear | 8 | 0.8571 | 0.7910 |
+  | constant | 9 | 0.8536 | 0.7722 |
+  | harmonic | 8 | 0.8509 | 0.7794 |
+  | quadratic | 10 | 0.8491 | 0.7737 |
+  | sqrt | 13 | 0.8545 | 0.7813 |
+  | exponential | 11 | 0.8536 | 0.7796 |
+  | sigmoid | 8 | 0.8518 | 0.7778 |
+  | tanh | 8 | 0.8589 | 0.7869 |
+  | cosine | 8 | 0.8571 | 0.7827 |
+  | gaussian | 10 | 0.8589 | 0.7941 |
 
 ## Citation
 
@@ -87,4 +106,3 @@ The BibTex of the citation is as follow:
 * Here, we would like to express our heartfelt thanks to all the authors of SenticNet. 
 * The code of this repository partly relies on [ASGCN](https://github.com/GeneZC/ASGCN) \& [ABSA-PyTorch](https://github.com/songyouwei/ABSA-PyTorch). 
 * Here, we would like to express our gratitude to the authors of the [ASGCN](https://github.com/GeneZC/ASGCN) \& [ABSA-PyTorch](https://github.com/songyouwei/ABSA-PyTorch) repositories.
-

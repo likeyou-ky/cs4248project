@@ -1,0 +1,23 @@
+{
+    "model_name": "senticgcnglove",
+    "dataset": "rest14",
+    "optimizer": "adam",
+    "initializer": "xavier_uniform_",
+    "learning_rate": 0.001,
+    "l2reg": 0.00001,
+    "num_epoch": 5,
+    "batch_size": 16,
+    "log_step": 5,
+    "embed_dim": 300,
+    "hidden_dim": 300,
+    "polarities_dim": 3,
+    "save": false,
+    "seed": 39,
+    "device": "cuda",
+    "posf": "nill",
+    "mask": "nill",
+    "isftext": "False",
+    "nlayers": 2,
+    "actf": "relu",
+    "graphtype": "dependency_graph"
+}

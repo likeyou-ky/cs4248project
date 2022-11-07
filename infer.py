@@ -1,17 +1,12 @@
 # -*- coding: utf-8 -*-
-
 import os
 import pickle
 import torch
 import torch.nn.functional as F
-import argparse
 
-from data_utils import ABSADataset, Tokenizer, build_embedding_matrix
-from data_utils import ABSADatesetReader
-from bucket_iterator import BucketIterator
+from data_utils import ABSADatesetReader, Tokenizer, build_embedding_matrix
 from models import LSTM, SenticGCN, SenticGCN_BERT
 from generate_sentic_dependency_graph import load_sentic_word, dependency_adj_matrix
-
 
 class Inferer:
     """A simple inference example"""
@@ -112,6 +107,11 @@ if __name__ == '__main__':
     opt.embed_dim = 300
     opt.hidden_dim = 300
     opt.polarities_dim = 3
+    opt.posf = 'piecewise_linear_mask'
+    opt.mask = 'uniform_aspect_mask'
+    opt.isftext = 'True'
+    opt.nlayers = 2
+    opt.actf = 'relu'
     opt.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     raw_text = 'Food is always fresh and hot - ready to eat !'

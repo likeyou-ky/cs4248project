@@ -207,6 +207,8 @@ def main():
     parser.add_argument('--posf', default='piecewise_linear_mask', type=str, help='specifies the position awareness function: \
         nill, piecewise_linear_mask, piecewise_constant_mask, piecewise_harmonic_mask, piecewise_quadratic_mask, piecewise_sqrt_mask, \
             piecewise_exponential_mask, piecewise_sigmoid_mask, piecewise_tanh_mask, piecewise_cosine_mask, piecewise_gaussian_mask')
+    parser.add_argument('--actf', default='relu', type=str, help='specifies the activation function in the graph convolution layer for the GCN. \
+        See details of available functions at https://pytorch.org/docs/stable/nn.functional.html')
     opt = parser.parse_args()
 
     if opt.seed is not None:

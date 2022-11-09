@@ -6,6 +6,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from layers.dynamic_rnn import DynamicLSTM
 from .posf import position_weight
+from .activation import actf
 
 class GraphConvolution(nn.Module):
     """
@@ -84,16 +85,20 @@ class SenticGCN_BERT(nn.Module):
 
         text_out = encoder_layer
 
-        x = F.relu(self.gc1(self.position_weight(text_out, aspect_double_idx, text_len, aspect_len), adj))
-        x = F.relu(self.gc2(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        x = actf(self.opt.actf)(self.gc1(self.position_weight(text_out, aspect_double_idx, text_len, aspect_len), adj))
+        #x = F.relu(self.gc1(self.position_weight(text_out, aspect_double_idx, text_len, aspect_len), adj))
+        x = actf(self.opt.actf)(self.gc2(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        #x = F.relu(self.gc2(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         #x = F.relu(self.gc1(text_out, adj))
         #x = F.relu(self.gc2(x, adj))
-        x = F.relu(self.gc3(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        x = actf(self.opt.actf)(self.gc3(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        #x = F.relu(self.gc3(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         #x = F.relu(self.gc4(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         #x = F.relu(self.gc5(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         #x = F.relu(self.gc6(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         #x = F.relu(self.gc7(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         #x = F.relu(self.gc8(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
+        x = self.opt.actf
 
         x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))

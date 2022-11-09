@@ -2,22 +2,24 @@
 # Introduction
 This repository was used in this paper:  
   
-[**Aspect-Based Sentiment Analysis via Affective Knowledge Enhanced Graph Convolutional Networks**](https://www.sentic.net/sentic-gcn.pdf)
+Aspect-based Sentiment Analysis with enhanced graph convolutional networks
 <br>
-Bin Liang, Hang Su, Lin Gui, Erik Cambria, Ruifeng Xu. *Knowledge-Based Systems, 2021: 107643.*
+Cao Peng, Gao Gui, Li Bozhao, Li Keyou, Mo Yunbin
   
-Please cite this paper and kindly give a star for this repository if you use this code.
+Please kindly cite this paper if you use this code.
 
 ## Requirements
 
 | Package Name | Version |
-| --- | --- |
-| Python | 3.10 |
+| --- | -- |
+| Python | 3.8 |
 | PyTorch | 1.12.1 |
 | SpaCy | 3.4.2 |
 | numpy | 1.23.1 |
 | Transformers | 4.24.0 |
 | ipdb | 0.13.9 |
+| allennlp | 2.10.1 |
+|allennlp-models | 2.10.1 |
 
 ## Usage
 
@@ -27,6 +29,9 @@ pip install spacy
 python -m spacy download en_core_web_sm
 pip install transformers
 pip install ipdb
+pip install allennlp
+pip install allennlp-models
+
 ```
 * Generate dependency graph with
 ```bash
@@ -40,69 +45,14 @@ python generate_sentic_graph.py
 ```bash
 python generate_sentic_dependency_graph.py
 ```
+p.s. The three steps above can be skipped because the output graph files are already stored in corresponding folders.
 
 ## Training
-* Train with command, optional arguments could be found in [train.py](/train.py) \& [train_bert.py](/train_bert.py)
-* Please tune the argument of *--seed* for better performance
-
-* Run senticgcn: ```./run_senticgcn.sh```
-
-* Run senticgcn_bert: ```./run_senticgcn_bert.sh```
-
-
-## Testing
-* Testing with the models saved in **state_dict**. Optional arguments could be found in [infer.py](/infer.py) \& [infer_for_bert.py](/infer_for_bert.py)
-* Please run ```python infer.py``` for the testing of non-BERT models.
-* Please run ```python infer_for_bert.py``` for the testing of BERT-based models.
-
-## Comparing different Fs
-* Comparing different Fs using the models saved in **state_dict**. Results will be saved in **posf_logs**.
-* Please run ```./test_posf.sh```. You can modify it if needed.
-* Note: This operation takes huge amounts of time by default.
-* Each F uses a different mash to assign position-aware weights. Pre-tested result for reference:
-  | Mask Type | Epochs Needed | test_acc | test_f1 |
-  | --- | --- | --- | --- |
-  | nill | 9 | 0.8545 | 0.7815 |
-  | linear | 8 | 0.8571 | 0.7910 |
-  | constant | 9 | 0.8536 | 0.7722 |
-  | harmonic | 8 | 0.8509 | 0.7794 |
-  | quadratic | 10 | 0.8491 | 0.7737 |
-  | sqrt | 13 | 0.8545 | 0.7813 |
-  | exponential | 11 | 0.8536 | 0.7796 |
-  | sigmoid | 8 | 0.8518 | 0.7778 |
-  | tanh | 8 | 0.8589 | 0.7869 |
-  | cosine | 8 | 0.8571 | 0.7827 |
-  | gaussian | 10 | 0.8589 | 0.7941 |
-
-## Citation
-
-The BibTex of the citation is as follow:
-
-```bibtex
-@article{liang2021aspect,
-  title={Aspect-based sentiment analysis via affective knowledge enhanced graph convolutional networks},
-  author={Liang, Bin and Su, Hang and Gui, Lin and Cambria, Erik and Xu, Ruifeng},
-  journal={Knowledge-Based Systems},
-  pages={107643},
-  year={2021},
-  publisher={Elsevier}
-}
+```bash
+./train_model.sh
 ```
 
-## See Also
-* The original knowledge base of [SenticNet](https://sentic.net/) could be found at https://sentic.net/downloads/.
-* The knowledge source used in this code is [SenticNet 5](https://sentic.net/senticnet-5.pdf), which is stored at [senticnet-5.0/senticnet5.txt](/senticnet-5.0/senticnet5.txt).
-* We also set several variants of our model:
-    | Model        | Decription |
-    | --------   | -----   |
-    | [affectivegcn.py](/models/affectivegcn.py) |   Only using the affective information (i.e. Eq.2) for building graphs |
-    | [attsenticgcn.py](/models/attsenticgcn.py) |   Combining our model with attention mechanism |
-    | [sdgcn.py](/models/sdgcn.py) |   Interactively performing the graph convolutional operation based on dependency (i.e. Eq. 1) and affective (i.e. Eq.2) graphs |
-
-
-## Credits
-
-* The affective knowledge used in this work is from [SenticNet](https://sentic.net/).
-* Here, we would like to express our heartfelt thanks to all the authors of SenticNet. 
-* The code of this repository partly relies on [ASGCN](https://github.com/GeneZC/ASGCN) \& [ABSA-PyTorch](https://github.com/songyouwei/ABSA-PyTorch). 
-* Here, we would like to express our gratitude to the authors of the [ASGCN](https://github.com/GeneZC/ASGCN) \& [ABSA-PyTorch](https://github.com/songyouwei/ABSA-PyTorch) repositories.
+## Testing
+```bash
+./test_model.sh
+```

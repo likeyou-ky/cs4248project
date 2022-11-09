@@ -9,7 +9,7 @@ for i in "${arr[@]}"
 do
     echo "Running $i with $NEPOCHS epochs..."
     CONFIG=$(echo "$i")
-    OUTPUT=$(CUDA_VISIBLE_DEVICES=0 python3 train_bert.py --model_name senticgcn_bert --initializer "$CONFIG" --dataset rest14 --lr 2e-5 --seed 39 --batch_size 16 --device cuda --num_epoch "$NEPOCHS" --posf "piecewise_gaussian_mask")
+    OUTPUT=$(CUDA_VISIBLE_DEVICES=0 python3 train_bert.py --model_name senticgcn_bert --initializer "$CONFIG" --dataset rest14 --lr 2e-5 --seed 39 --batch_size 16 --device cuda --num_epoch "$NEPOCHS" --posf "piecewise_linear_mask" --actf "softmin")
     EPOCHS=$(echo "$OUTPUT" | grep epoch | tail -1)
     SCORES=$(echo "$OUTPUT" | grep test_acc | tail -1)
     MSG="$CONFIG $EPOCHS $SCORES\n"

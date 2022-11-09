@@ -1,1 +1,1 @@
-CUDA_VISIBLE_DEVICES=0 python3 train_bert.py --model_name senticgcn_bert --dataset rest14 --lr 2e-5 --seed 39 --batch_size 16 --device cuda --num_epoch 30 --posf piecewise_linear_mask
+CUDA_VISIBLE_DEVICES=0 python3 train_bert.py --model_name senticgcn_bert --dataset rest14 --lr 2e-5 --seed 39 --batch_size 16 --device cuda --num_epoch 30 --posf piecewise_linear_mask --actf softmin --initializer xavier_uniform_

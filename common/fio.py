@@ -1,7 +1,9 @@
 import numpy as np
-import spacy
+import stanfordnlp
 import pickle
-nlp = spacy.load('en_core_web_sm')
+stanfordnlp.download('en')
+nlp = stanfordnlp.Pipeline()
+# nlp = spacy.load('en_core_web_sm')
 
 def graph_dep_adj_mat(text):
     # https://spacy.io/docs/usage/processing-text

@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-import spacy
 from common import writefiles
 import pickle
+import stanfordnlp
 
-nlp = spacy.load('en_core_web_sm')
+stanfordnlp.download('en')
+nlp = stanfordnlp.Pipeline()
+
+# nlp = spacy.load('en_core_web_sm')
 
 
 # customized function for graph_sentic_aspect_dep_adj_matrix

@@ -1,8 +1,8 @@
-# Modification on Sentic GCN
+# Aspect-based Sentiment Analysis with Enhanced Graph Convolutional Networks
 # Introduction
 This repository was used in this paper:  
   
-Aspect-based Sentiment Analysis with enhanced graph convolutional networks
+Aspect-based Sentiment Analysis with Enhanced Graph Convolutional Networks
 <br>
 Cao Peng, Gao Gui, Li Bozhao, Li Keyou, Mo Yunbin
   
@@ -12,6 +12,7 @@ Please kindly cite this paper if you use this code.
 
 | Package Name | Version |
 | --- | -- |
+| sklearn | |
 | Python | 3.8 |
 | PyTorch | 1.12.1 |
 | SpaCy | 3.4.2 |
@@ -26,6 +27,7 @@ Please kindly cite this paper if you use this code.
 * Install packages with
 ```bash
 pip install spacy
+pip install scikit-learn
 python -m spacy download en_core_web_sm
 pip install transformers
 pip install ipdb

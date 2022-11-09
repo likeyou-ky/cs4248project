@@ -36,7 +36,7 @@ def dependency_adj_matrix(text, aspect, senticNet):
     #print(document)
     #print(senticNet)
     
-    for token in document:
+    for token in document.sentences:
         if str(token) in senticNet:
             sentic = float(senticNet[str(token)])
         else:

@@ -9,7 +9,7 @@ def graph_dep_adj_mat(text):
     seq_len = len(text.split())
     matrix = np.zeros((seq_len, seq_len)).astype('float32')
     
-    for token in document:
+    for token in document.sentences:
         if token.i < seq_len:
             matrix[token.i][token.i] = 1
             # https://spacy.io/docs/api/token

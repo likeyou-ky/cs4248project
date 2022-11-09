@@ -98,7 +98,6 @@ class SenticGCN_BERT(nn.Module):
         #x = F.relu(self.gc6(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         #x = F.relu(self.gc7(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
         #x = F.relu(self.gc8(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        x = self.opt.actf
 
         x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))

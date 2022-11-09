@@ -1,5 +1,6 @@
 # python module for mask functions
 import torch
+from math import pi, sqrt, exp
 
 # mask function selector
 def mask(opt, x, aspect_double_idx):
@@ -19,6 +20,21 @@ def mask_general(opt, x, aspect_double_idx, func):
         func(aspect_start, aspect_end, seq_len, opt.max_seq_len, mask[i])
     mask = torch.tensor(mask).unsqueeze(2).float().to(opt.device)
     return mask*x
+
+def gauss(n=11,sigma=1):
+    r = range(-int(n/2),int(n/2)+1)
+    return [1 / (sigma * sqrt(2*pi)) * exp(-float(x)**2/(2*sigma**2)) for x in r]
+
+def gaussian_aspect_mask(aspect_start, aspect_end, seq_len, max_seq_len, mask):
+    gauss_mask = gauss(min(aspect_end+1, max_seq_len) - aspect_start)
+    for j in range(aspect_start):
+        mask.append(0)
+    i = 0
+    for j in range(aspect_start, min(aspect_end+1, max_seq_len)):
+        mask.append(gauss_mask[i])
+        i += 1
+    for j in range(min(aspect_end+1, max_seq_len), seq_len):
+        mask.append(0)
 
 def uniform_aspect_mask_bert(aspect_start, aspect_end, seq_len, max_seq_len, mask):
     for j in range(aspect_start):

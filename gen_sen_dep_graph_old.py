@@ -14,23 +14,24 @@ def dependency_adj_matrix(text, aspect, senticNet):
     #print(document)
     #print(senticNet)
     
-    for token in document.sentences:
-        #print('token:', token)
-        if str(token) in senticNet:
-            sentic = float(senticNet[str(token)]) + 1
-        else:
-            sentic = 0
-        if str(token) in aspect:
-            sentic += 1
-        if token.i < seq_len:
-            matrix[token.i][token.i] = 1 * sentic
-            # https://spacy.io/docs/api/token
-            for child in token.children:
-                if str(child) in aspect:
-                    sentic += 1
-                if child.i < seq_len:
-                    matrix[token.i][child.i] = 1 * sentic
-                    matrix[child.i][token.i] = 1 * sentic
+    for sentence in document.sentences:
+        for token in sentence:
+            #print('token:', token)
+            if str(token) in senticNet:
+                sentic = float(senticNet[str(token)]) + 1
+            else:
+                sentic = 0
+            if str(token) in aspect:
+                sentic += 1
+            if token.i < seq_len:
+                matrix[token.i][token.i] = 1 * sentic
+                # https://spacy.io/docs/api/token
+                for child in token.children:
+                    if str(child) in aspect:
+                        sentic += 1
+                    if child.i < seq_len:
+                        matrix[token.i][child.i] = 1 * sentic
+                        matrix[child.i][token.i] = 1 * sentic
 
     return matrix
 

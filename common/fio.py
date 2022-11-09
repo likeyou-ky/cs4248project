@@ -9,14 +9,15 @@ def graph_dep_adj_mat(text):
     seq_len = len(text.split())
     matrix = np.zeros((seq_len, seq_len)).astype('float32')
     
-    for token in document.sentences:
-        if token.i < seq_len:
-            matrix[token.i][token.i] = 1
-            # https://spacy.io/docs/api/token
-            for child in token.children:
-                if child.i < seq_len:
-                    matrix[token.i][child.i] = 1
-                    matrix[child.i][token.i] = 1
+    for sentence in document.sentences:
+        for token in sentence:
+            if token.i < seq_len:
+                matrix[token.i][token.i] = 1
+                # https://spacy.io/docs/api/token
+                for child in token.children:
+                    if child.i < seq_len:
+                        matrix[token.i][child.i] = 1
+                        matrix[child.i][token.i] = 1
 
     return matrix
 

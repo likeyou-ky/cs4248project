@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-import spacy
+import stanza
 from common import writefiles
-nlp = spacy.load('en_core_web_sm')
+nlp = stanza.Pipeline('en')
 
 def dependency_adj_matrix(text, aspect, senticNet):
     # https://spacy.io/docs/usage/processing-text

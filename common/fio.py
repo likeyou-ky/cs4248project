@@ -1,7 +1,7 @@
 import numpy as np
-import spacy
+import stanza
 import pickle
-nlp = spacy.load('en_core_web_sm')
+nlp = stanza.Pipeline('en')
 
 def graph_dep_adj_mat(text):
     # https://spacy.io/docs/usage/processing-text

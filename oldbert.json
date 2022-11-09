@@ -23,7 +23,7 @@
     "posf": "piecewise_linear_mask",
     "mask": "uniform_aspect_mask_bert",
     "isftext": "True",
-    "nlayers": 3,
-    "actf": "tanh",
+    "nlayers": 2,
+    "actf": "relu",
     "graphtype": "sdat_graph"
 }

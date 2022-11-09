@@ -83,9 +83,8 @@ def process(filename, depadjmatrix_func, suffix='', graph_dep_type=1):
         senticNet = None
     else:
         senticNet = load_sentic_word()
-    fin = open(filename, 'r', encoding='utf-8', newline='\n', errors='ignore')
-    lines = fin.readlines()
-    fin.close()
+    with open(filename, 'r', encoding='utf-8', newline='\n', errors='ignore') as f:
+        lines = f.readlines()
     idx2graph = {}
     fout = open(filename+suffix, 'wb')
     for i in range(0, len(lines), 3):

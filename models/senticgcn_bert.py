@@ -4,7 +4,6 @@ import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from layers.dynamic_rnn import DynamicLSTM
 from .posf import position_weight
 from .activation import actf
 

@@ -1,6 +1,7 @@
 #!/bin/bash
 ## declare posf args arr
-declare -a arr=("nill" "piecewise_linear_mask" "piecewise_constant_mask" "piecewise_harmonic_mask" "piecewise_quadratic_mask" "piecewise_sqrt_mask" "piecewise_exponential_mask" "piecewise_sigmoid_mask" "piecewise_tanh_mask" "piecewise_cosine_mask" "piecewise_gaussian_mask")
+declare -a arr=("xavier_uniform_" "piecewise_linear_mask" "piecewise_constant_mask" "piecewise_harmonic_mask" "piecewise_quadratic_mask" "piecewise_sqrt_mask" "piecewise_exponential_mask" "piecewise_sigmoid_mask" "piecewise_tanh_mask" "piecewise_cosine_mask" "piecewise_gaussian_mask")
+
 readonly NEPOCHS=30
 RESULT=""
 ## loop through arr
@@ -16,6 +17,6 @@ do
     RESULT+="$MSG"
 done
 DT=$(date '+%Y%m%d-%H%M%S')
-FNAME="improvement_logs/posf_$DT.txt"
+FNAME="posf_logs/posf_$DT.txt"
 echo -en "$RESULT" > "$FNAME"
 echo "Done. Results saved to $FNAME."

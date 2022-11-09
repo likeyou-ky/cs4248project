@@ -246,6 +246,17 @@ def main():
         'xavier_uniform_': torch.nn.init.xavier_uniform_,
         'xavier_normal_': torch.nn.init.xavier_normal_,
         'orthogonal_': torch.nn.init.orthogonal_,
+        'uniform_': torch.nn.init.uniform_,
+        'normal_': torch.nn.init.normal_,
+        'constant_': torch.nn.init.constant_,
+        'ones_': torch.nn.init.ones_,
+        'zeros_': torch.nn.init.zeros_,
+        'eye_': torch.nn.init.eye_,
+        'dirac_': torch.nn.init.dirac_,
+        'kaiming_uniform_': torch.nn.init.kaiming_uniform_,
+        'kaiming_normal_': torch.nn.init.kaiming_normal_,
+        'sparse_': torch.nn.init.sparse_,
+        'trunc_normal_': torch.nn.init.trunc_normal_,
     }
     optimizers = {
         'adadelta': torch.optim.Adadelta,  # default lr=1.0

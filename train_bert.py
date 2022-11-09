@@ -87,6 +87,7 @@ class Instructor:
         max_val_f1 = 0
         max_val_epoch = 0
         global_step = 0
+        stalled_count = 0
         path = None
         for i_epoch in range(self.opt.num_epoch):
             logger.info('>' * 100)
@@ -117,8 +118,14 @@ class Instructor:
 
             val_acc, val_f1 = self._evaluate_acc_f1(val_data_loader)
             logger.info('> val_acc: {:.4f}, val_f1: {:.4f}'.format(val_acc, val_f1))
+            stalled_count += 1 # default: stalled
             if val_acc > max_val_acc:
+                stalled_count = 0 # improved accuracy
                 max_val_acc = val_acc
+            if val_f1 > max_val_f1:
+                stalled_count = 0 # improved f1-score
+                max_val_f1 = val_f1
+            if stalled_count == 0: # improved
                 max_val_epoch = i_epoch
                 if not os.path.exists('state_dict'):
                     os.mkdir('state_dict')
@@ -126,9 +133,7 @@ class Instructor:
                 path = 'state_dict/{0}_{1}{2}'.format(self.opt.model_name, self.opt.dataset, ".pkl")
                 torch.save(self.model.state_dict(), path)
                 logger.info('>> saved: {}'.format(path))
-            if val_f1 > max_val_f1:
-                max_val_f1 = val_f1
-            if i_epoch - max_val_epoch >= self.opt.patience:
+            if i_epoch - max_val_epoch >= self.opt.patience: # did not improve for {patience} times
                 print('>> early stop.')
                 break
 

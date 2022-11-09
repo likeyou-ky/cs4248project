@@ -97,7 +97,7 @@ class Instructor:
                     print('loss: {:.4f}, acc: {:.4f}, test_acc: {:.4f}, test_f1: {:.4f}'.format(loss.item(), train_acc, test_acc, test_f1))
             if increase_flag == False:
                 continue_not_increase += 1
-                if continue_not_increase >= 5:
+                if continue_not_increase >= self.opt.patience:
                     print('early stop.')
                     break
             else:
@@ -190,6 +190,7 @@ if __name__ == '__main__':
     parser.add_argument('--actf', default='relu', type=str, help='specifies the activation function in the graph convolution layer for the GCN. \
         See details of available functions at https://pytorch.org/docs/stable/nn.functional.html')
     parser.add_argument('--graphtype', default='sdat_graph', type=str, help='specifies the type of graph to be used. (sdat_graph, dependency_graph)')
+    parser.add_argument('--patience', default=5, type=int)
     opt = parser.parse_args()
 
     model_classes = {

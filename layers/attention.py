@@ -49,12 +49,6 @@ class Attention(nn.Module):
         mb_size = k.shape[0]  # ?
         k_len = k.shape[1]
         q_len = q.shape[1]
-        # k: (?, k_len, embed_dim,)
-        # q: (?, q_len, embed_dim,)
-        # kx: (n_head*?, k_len, hidden_dim)
-        # qx: (n_head*?, q_len, hidden_dim)
-        # score: (n_head*?, q_len, k_len,)
-        # output: (?, q_len, out_dim,)
         kx = self.w_k(k).view(mb_size, k_len, self.n_head, self.hidden_dim)
         kx = kx.permute(2, 0, 1, 3).contiguous().view(-1, k_len, self.hidden_dim)
         qx = self.w_q(q).view(mb_size, q_len, self.n_head, self.hidden_dim)
@@ -141,14 +135,6 @@ class Attention_Masked(nn.Module):
         mask = torch.tensor([[0]*step + [-10000]*(k_len-step) for step in k_step.numpy()],dtype=torch.float ).unsqueeze(1)
         mask = torch.cat([mask for _ in range(self.n_head)],dim=0)
 
-
-
-        # k: (?, k_len, embed_dim,)
-        # q: (?, q_len, embed_dim,)
-        # kx: (n_head*?, k_len, hidden_dim)
-        # qx: (n_head*?, q_len, hidden_dim)
-        # score: (n_head*?, q_len, k_len,)
-        # output: (?, q_len, out_dim,)
         kx = self.w_k(k).view(mb_size, k_len, self.n_head, self.hidden_dim)
         kx = kx.permute(2, 0, 1, 3).contiguous().view(-1, k_len, self.hidden_dim)
         qx = self.w_q(q).view(mb_size, q_len, self.n_head, self.hidden_dim)

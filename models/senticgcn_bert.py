@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -36,17 +34,9 @@ class SenticGCN_BERT(nn.Module):
         super(SenticGCN_BERT, self).__init__()
         self.opt = opt
         self.bert = bert
-        #self.dropout = nn.Dropout(opt.dropout)
-        #self.embed = nn.Embedding.from_pretrained(torch.tensor(embedding_matrix, dtype=torch.float))
-        #self.text_lstm = DynamicLSTM(768, opt.hidden_dim, num_layers=1, batch_first=True, bidirectional=True)
         self.gc1 = GraphConvolution(opt.bert_dim, opt.bert_dim)
         self.gc2 = GraphConvolution(opt.bert_dim, opt.bert_dim)
         self.gc3 = GraphConvolution(opt.bert_dim, opt.bert_dim)
-        #self.gc4 = GraphConvolution(2*opt.hidden_dim, 2*opt.hidden_dim)
-        #self.gc5 = GraphConvolution(2*opt.hidden_dim, 2*opt.hidden_dim)
-        #self.gc6 = GraphConvolution(2*opt.hidden_dim, 2*opt.hidden_dim)
-        #self.gc7 = GraphConvolution(2*opt.hidden_dim, 2*opt.hidden_dim)
-        #self.gc8 = GraphConvolution(2*opt.hidden_dim, 2*opt.hidden_dim)
         self.fc = nn.Linear(opt.bert_dim, opt.polarities_dim)
         self.text_embed_dropout = nn.Dropout(0.3)
     
@@ -73,30 +63,14 @@ class SenticGCN_BERT(nn.Module):
         aspect_len = torch.sum(aspect_indices != 0, dim=-1)
         left_len = torch.sum(left_indices != 0, dim=-1)
         aspect_double_idx = torch.cat([left_len.unsqueeze(1), (left_len+aspect_len-1).unsqueeze(1)], dim=1)
-        #text = self.embed(text_indices)
-        #text = self.text_embed_dropout(text)
-        #text_out, (_, _) = self.text_lstm(text, text_len)
 
-        #encoder_layer, pooled_output = self.bert(text_bert_indices, token_type_ids=bert_segments_ids, output_all_encoded_layers=False)
         od = self.bert(text_bert_indices, token_type_ids=bert_segments_ids, output_hidden_states=None)
         encoder_layer = od['last_hidden_state']
-        pooled_output = od['pooler_output']
-
         text_out = encoder_layer
 
         x = actf(self.opt.actf)(self.gc1(self.position_weight(text_out, aspect_double_idx, text_len, aspect_len), adj))
-        #x = F.relu(self.gc1(self.position_weight(text_out, aspect_double_idx, text_len, aspect_len), adj))
         x = actf(self.opt.actf)(self.gc2(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        #x = F.relu(self.gc2(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        #x = F.relu(self.gc1(text_out, adj))
-        #x = F.relu(self.gc2(x, adj))
         x = actf(self.opt.actf)(self.gc3(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        #x = F.relu(self.gc3(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        #x = F.relu(self.gc4(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        #x = F.relu(self.gc5(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        #x = F.relu(self.gc6(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        #x = F.relu(self.gc7(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
-        #x = F.relu(self.gc8(self.position_weight(x, aspect_double_idx, text_len, aspect_len), adj))
 
         x = self.mask(x, aspect_double_idx)
         alpha_mat = torch.matmul(x, text_out.transpose(1, 2))

@@ -49,9 +49,6 @@ def dependency_adj_matrix(text, aspect, senticNet):
     children = generate_children(' '.join(list(map(lambda x: str(x), document))))
     seq_len = len(document)
     matrix = np.ones((seq_len, seq_len)).astype('float32')
-    #print('='*20+':')
-    #print(document)
-    #print(senticNet)
     
     for token in document:
         if str(token) in senticNet:

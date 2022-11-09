@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
-import pickle
 import torch
 import torch.nn.functional as F
 import numpy as np
@@ -11,7 +9,6 @@ from transformers import BertModel
 from data_utils_bert import build_tokenizer, build_embedding_matrix, Tokenizer4Bert, ABSADataset, pad_and_truncate
 from models import SenticGCN_BERT
 from generate_sentic_dependency_graph import load_sentic_word, dependency_adj_matrix
-
 
 class Inferer:
     """A simple inference example"""
@@ -53,15 +50,11 @@ class Inferer:
     def evaluate(self, raw_text, aspect):
         senticNet = load_sentic_word()
         con_text = '[CLS] ' + raw_text.lower() + ' [SEP] ' + aspect.lower() + " [SEP]"
-        #text_seqs = [self.tokenizer.text_to_sequence(raw_text.lower())]
-        #aspect_seqs = [self.tokenizer.text_to_sequence(aspect.lower())]
-        #left_seqs = [self.tokenizer.text_to_sequence(raw_text.lower().split(aspect.lower())[0])]
 
         text_indices = [self.tokenizer.text_to_sequence(raw_text.lower())]
         aspect_indices = [self.tokenizer.text_to_sequence(aspect.lower())]
         left_indices = [self.tokenizer.text_to_sequence(raw_text.lower().split(aspect.lower())[0])]
 
-        left_len = np.sum(left_indices != 0)
         aspect_len = np.sum(aspect_indices != 0)
         text_len = np.sum(text_indices != 0)
 
@@ -139,4 +132,3 @@ if __name__ == '__main__':
     label_dict = {-1: 'Negative', 0: 'Neutral', 1: 'Positive'}
 
     print('The test results is:', infer_label, label_dict[infer_label])
-

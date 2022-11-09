@@ -29,9 +29,6 @@ def dependency_adj_matrix(text, aspect, senticNet):
     document = nlp(text)
     seq_len = len(text.split())
     matrix = np.zeros((seq_len, seq_len)).astype('float32')
-    #print('='*20+':')
-    #print(document)
-    #print(senticNet)
     
     for token in document:
         #print('token:', token)

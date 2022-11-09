@@ -3,7 +3,6 @@
 import math
 import random
 import torch
-import numpy
 
 class BucketIterator(object):
     def __init__(self, data, batch_size, sort_key='sdat_graph', shuffle=True, sort=False):

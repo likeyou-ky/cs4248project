@@ -7,3 +7,4 @@ from models.attsenticgcn import ATTSenticGCN
 from models.sdgcn import SDGCN
 from models.affectivegcn import AFFGCN
 from models.senticgcn_bert import SenticGCN_BERT
+from models.baselinegcn import BaselineGCN

@@ -1,7 +1,4 @@
 *.log
-*.raw.graph
-*.raw.graph_sdat
-*.raw.sentic
 __pycache__/
 *.pkl
 glove.840B.300d.txt
@@ -10,3 +7,5 @@ log/
 layers/__pycache__/
 models/__pycache__/
 .idea/
+/state_dict/*.pkl
+/*.log

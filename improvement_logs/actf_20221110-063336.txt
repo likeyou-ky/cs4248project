@@ -1,0 +1,18 @@
+relu epoch: 9 >> test_acc: 0.8518, test_f1: 0.7694
+leaky_relu epoch: 13 >> test_acc: 0.8625, test_f1: 0.7993
+tanh epoch: 7 >> test_acc: 0.8527, test_f1: 0.7782
+sigmoid epoch: 12 >> test_acc: 0.8589, test_f1: 0.7982
+softmax epoch: 13 >> test_acc: 0.8500, test_f1: 0.7761
+log_softmax epoch: 11 >> test_acc: 0.8357, test_f1: 0.7488
+softsign epoch: 9 >> test_acc: 0.8509, test_f1: 0.7717
+elu epoch: 8 >> test_acc: 0.8562, test_f1: 0.7867
+selu epoch: 10 >> test_acc: 0.8554, test_f1: 0.7881
+celu epoch: 8 >> test_acc: 0.8562, test_f1: 0.7867
+glu epoch: 0 
+hardshrink epoch: 10 >> test_acc: 0.8562, test_f1: 0.7789
+hardtanh epoch: 13 >> test_acc: 0.8554, test_f1: 0.7771
+hardsigmoid epoch: 8 >> test_acc: 0.8562, test_f1: 0.7866
+hardswish epoch: 10 >> test_acc: 0.8545, test_f1: 0.7790
+softmin epoch: 10 >> test_acc: 0.8616, test_f1: 0.7982
+tanhshrink epoch: 8 >> test_acc: 0.8607, test_f1: 0.7969
+threshold epoch: 0 

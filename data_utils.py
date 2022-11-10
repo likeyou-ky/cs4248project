@@ -83,8 +83,6 @@ class ABSADataset(object):
     def __len__(self):
         return len(self.data)
 
-
-
 class ABSADatesetReader:
     @staticmethod
     def __read_text__(fnames):
@@ -151,10 +149,6 @@ class ABSADatesetReader:
     def __init__(self, dataset='twitter', embed_dim=300):
         print("preparing {0} dataset ...".format(dataset))
         fname = {
-            'twitter': {
-                'train': './datasets/acl-14-short-data/train.raw',
-                'test': './datasets/acl-14-short-data/test.raw'
-            },
             'rest14': {
                 'train': './datasets/semeval14/restaurant_train.raw',
                 'test': './datasets/semeval14/restaurant_test.raw'

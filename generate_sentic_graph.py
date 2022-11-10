@@ -4,9 +4,6 @@ import numpy as np
 #import spacy
 import pickle
 
-#nlp = spacy.load('en_core_web_sm')
-
-
 def load_sentic_word():
     """
     load senticNet

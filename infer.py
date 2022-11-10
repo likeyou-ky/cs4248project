@@ -4,24 +4,17 @@ import os
 import pickle
 import torch
 import torch.nn.functional as F
-import argparse
 
-from data_utils import ABSADataset, Tokenizer, build_embedding_matrix
+from data_utils import Tokenizer, build_embedding_matrix
 from data_utils import ABSADatesetReader
-from bucket_iterator import BucketIterator
-from models import LSTM, SenticGCN, SenticGCN_BERT, BaselineGCN
+from models import BaselineGCN
 from generate_dependency_graph import dependency_adj_matrix
-
 
 class Inferer:
     """A simple inference example"""
     def __init__(self, opt):
         self.opt = opt
         fname = {
-            'twitter': {
-                'train': './datasets/acl-14-short-data/train.raw',
-                'test': './datasets/acl-14-short-data/test.raw'
-            },
             'rest14': {
                 'train': './datasets/semeval14/restaurant_train.raw',
                 'test': './datasets/semeval14/restaurant_test.raw'
@@ -68,7 +61,6 @@ class Inferer:
         text_indices = torch.tensor(text_seqs, dtype=torch.int64)
         aspect_indices = torch.tensor(aspect_seqs, dtype=torch.int64)
         left_indices = torch.tensor(left_seqs, dtype=torch.int64)
-        # sdat_graph = torch.tensor([generate_sentic_dependency_graph.dependency_adj_matrix(raw_text.lower(), aspect.lower(), senticNet)])
         dependency_graph = torch.tensor([dependency_adj_matrix(raw_text.lower())])
         data = {
             'text_indices': text_indices, 
@@ -122,4 +114,3 @@ if __name__ == '__main__':
     label_dict = {-1: 'Negative', 0: 'Neutral', 1: 'Positive'}
 
     print('The test results is:', infer_label, label_dict[infer_label])
-

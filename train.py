@@ -10,8 +10,7 @@ import torch.nn as nn
 from bucket_iterator import BucketIterator
 from sklearn import metrics
 from data_utils import ABSADatesetReader
-from models import LSTM, SenticGCN, ATTSenticGCN, SDGCN, AFFGCN, BaselineGCN
-from models.senticgcn_glove import SenticGCNGLOVE
+from models import BaselineGCN
 
 class Instructor:
     def __init__(self, opt):
@@ -162,7 +161,6 @@ class Instructor:
 
         f_out.close()
 
-
 if __name__ == '__main__':
     # Hyper Parameters
     parser = argparse.ArgumentParser()
@@ -184,24 +182,14 @@ if __name__ == '__main__':
     opt = parser.parse_args()
 
     model_classes = {
-        'lstm': LSTM,
-        'senticgcn': SenticGCN,
-        'attsenticgcn': ATTSenticGCN,
-        'sdgcn': SDGCN,
-        'affgcn': AFFGCN,
         'baselinegcn': BaselineGCN
     }
     input_colses = {
-        'lstm': ['text_indices'],
-        'senticgcn': ['text_indices', 'aspect_indices', 'left_indices', 'sdat_graph'],
-        'baselinegcn': ['text_indices', 'aspect_indices', 'left_indices', 'dependency_graph'],
-        'sdgcn': ['text_indices', 'aspect_indices', 'left_indices', 'sentic_graph', 'sdat_graph'],
-        'affgcn': ['text_indices', 'aspect_indices', 'left_indices', 'sentic_graph'],
-        'senticgcnglove': ['text_indices', 'aspect_indices', 'left_indices', 'sdat_graph']
+        'baselinegcn': ['text_indices', 'aspect_indices', 'left_indices', 'dependency_graph']
     }
     initializers = {
         'xavier_uniform_': torch.nn.init.xavier_uniform_,
-        'xavier_normal_': torch.nn.init.xavier_normal,
+        'xavier_normal_': torch.nn.init.xavier_normal_,
         'orthogonal_': torch.nn.init.orthogonal_,
     }
     optimizers = {

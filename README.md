@@ -22,6 +22,8 @@ Please kindly cite this paper if you use this code.
 | allennlp | 2.10.1 |
 |allennlp-models | 2.10.1 |
 
+Download the pre-trained Glove from here https://nlp.stanford.edu/data/glove.840B.300d.zip and put the unzipped file in the same directory as run_gcn_baseline.sh
+
 ## Usage
 
 1. (required) Install packages with
@@ -55,9 +57,10 @@ Please kindly cite this paper if you use this code.
 1. Training can be performed with
 
     ```bash
-    chmod +x train_model.sh
-    ./train_model.sh
+    chmod +x run_gcn_baseline.sh
+    ./run_gcn_baseline.sh
     ```
+    You can specifiy more than one seed in this file
 
 1. Testing can be performed with
 

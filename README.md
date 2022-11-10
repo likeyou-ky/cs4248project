@@ -19,8 +19,6 @@ Please kindly cite this paper if you use this code.
 | numpy | 1.23.1 |
 | Transformers | 4.24.0 |
 | ipdb | 0.13.9 |
-| allennlp | 2.10.1 |
-|allennlp-models | 2.10.1 |
 
 Download the pre-trained Glove from here https://nlp.stanford.edu/data/glove.840B.300d.zip and put the unzipped file in the same directory as run_gcn_baseline.sh
 
@@ -34,38 +32,25 @@ Download the pre-trained Glove from here https://nlp.stanford.edu/data/glove.840
     python -m spacy download en_core_web_sm
     pip install transformers
     pip install ipdb
-    pip install allennlp
-    pip install allennlp-models
     ```
 
-1. Generate dependency and sentic graphs with
+1. Generate all graphs with
 
     ```bash
-    python generate_dependency_graph.py
-    python generate_sentic_graph.py
-    ```
-
-1. Generate sentic & dependeny graph with
-
-    ```bash
-    # For the baseline version
-    python generate_sentic_dependency_graph.py
-    # OR for our improved version
-    python improved_gen_sentic_dep_graph.py
+    python generate_graphs.py
     ```
 
 1. Training can be performed with
 
     ```bash
-    chmod +x run_gcn_baseline.sh
-    ./run_gcn_baseline.sh
+    # seed 4248 can be replaced with any other seed
+    CUDA_VISIBLE_DEVICES=1 python3 train.py --model_name baselinegcn --dataset rest14 --save True --learning_rate 1e-3 --seed 4248 --batch_size 16 --hidden_dim 300
     ```
-    You can specifiy more than one seed in this file
 
 1. Testing can be performed with
 
     ```bash
-    # The sentence and aspect are hardcoded at lines 119-120.
+    # The sentence and aspect are hardcoded at lines 105-106.
     # Please change them if needed before running this line.
     python infer.py
     ```

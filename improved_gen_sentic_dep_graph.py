@@ -52,11 +52,11 @@ def dependency_adj_matrix(text, aspect, senticNet):
     
     for token in document:
         if str(token) in senticNet:
-            sentic = float(senticNet[str(token)])
+            sentic = float(senticNet[str(token)]) * 0.5
         else:
             sentic = 0
         if str(token) in aspect:
-            sentic += 1
+            sentic += 0.5
         if token.i < seq_len:
             matrix[token.i][token.i] = 1 * sentic + sentic
             # https://spacy.io/docs/api/token

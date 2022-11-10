@@ -1,90 +1,68 @@
-# Sentic GCN: A Simple But Effective Framework for Aspect-Based Sentiment Analysis via Affective Knowledge Enhanced GCN
+# Aspect-based Sentiment Analysis with Enhanced Graph Convolutional Networks
 # Introduction
-This repository was used in our paper:  
+This repository was used in this paper:  
   
-[**Aspect-Based Sentiment Analysis via Affective Knowledge Enhanced Graph Convolutional Networks**](https://www.sentic.net/sentic-gcn.pdf)
+Aspect-based Sentiment Analysis with Enhanced Graph Convolutional Networks
 <br>
-Bin Liang, Hang Su, Lin Gui, Erik Cambria, Ruifeng Xu. *Knowledge-Based Systems, 2021: 107643.*
+Cao Peng, Gao Gui, Li Bozhao, Li Keyou, Mo Yunbin
   
-Please cite our paper and kindly give a star for this repository if you use this code.
+Please kindly cite this paper if you use this code.
 
 ## Requirements
 
-* Python 3.6
-* PyTorch 1.0.0
-* SpaCy 2.0.18
-* numpy 1.15.4
+| Package Name | Version |
+| --- | -- |
+| Python | 3.8 |
+| PyTorch | 1.12.1 |
+| scikit-learn | 1.1.3 |
+| SpaCy | 3.4.2 |
+| numpy | 1.23.1 |
+| Transformers | 4.24.0 |
+| ipdb | 0.13.9 |
+| allennlp | 2.10.1 |
+|allennlp-models | 2.10.1 |
 
 ## Usage
 
-* Install [SpaCy](https://spacy.io/) package and language models with
-```bash
-pip install spacy
-```
-and
-```bash
-python -m spacy download en
-```
-* Generate dependency graph with
-```bash
-python generate_dependency_graph.py
-```
-* Generate sentic graph with
-```bash
-python generate_sentic_graph.py
-```
-* Generate sentic & dependeny graph with
-```bash
-python generate_sentic_dependency_graph.py
-```
+1. (required) Install packages with
 
-## Training
-* Train with command, optional arguments could be found in [train.py](/train.py) \& [train_bert.py](/train_bert.py)
-* Please tune the argument of *--seed* for better performance
+    ```bash
+    pip install scikit-learn
+    pip install spacy
+    python -m spacy download en_core_web_sm
+    pip install transformers
+    pip install ipdb
+    pip install allennlp
+    pip install allennlp-models
+    ```
 
+1. Generate dependency and sentic graphs with
 
-* Run senticgcn: ```./run_senticgcn.sh```
+    ```bash
+    python generate_dependency_graph.py
+    python generate_sentic_graph.py
+    ```
 
-* Run senticgcn_bert: ```./run_senticgcn_bert.sh```
+1. Generate sentic & dependeny graph with
 
+    ```bash
+    # For the baseline version
+    python generate_sentic_dependency_graph.py
+    # OR for our improved version
+    python improved_gen_sentic_dep_graph.py
+    ```
 
-## Testing
-* Testing with the models saved in **state_dict**. Optional arguments could be found in [infer.py](/infer.py) \& [infer_for_bert.py](/infer_for_bert.py)
-* Please run ```python infer.py``` for the testing of non-BERT models.
-* Please run ```python infer_for_bert.py``` for the testing of BERT-based models.
+1. Training can be performed with
 
+    ```bash
+    chmod +x train_model.sh
+    ./train_model.sh
+    ```
 
+1. Testing can be performed with
 
-## Citation
-
-The BibTex of the citation is as follow:
-
-```bibtex
-@article{liang2021aspect,
-  title={Aspect-based sentiment analysis via affective knowledge enhanced graph convolutional networks},
-  author={Liang, Bin and Su, Hang and Gui, Lin and Cambria, Erik and Xu, Ruifeng},
-  journal={Knowledge-Based Systems},
-  pages={107643},
-  year={2021},
-  publisher={Elsevier}
-}
-```
-
-## See Also
-* The original knowledge base of [SenticNet](https://sentic.net/) could be found at https://sentic.net/downloads/.
-* The knowledge source used in this code is [SenticNet 5](https://sentic.net/senticnet-5.pdf), which is stored at [senticnet-5.0/senticnet5.txt](/senticnet-5.0/senticnet5.txt).
-* We also set several variants of our model:
-    | Model        | Decription |
-    | --------   | -----   |
-    | [affectivegcn.py](/models/affectivegcn.py) |   Only using the affective information (i.e. Eq.2) for building graphs |
-    | [attsenticgcn.py](/models/attsenticgcn.py) |   Combining our model with attention mechanism |
-    | [sdgcn.py](/models/sdgcn.py) |   Interactively performing the graph convolutional operation based on dependency (i.e. Eq. 1) and affective (i.e. Eq.2) graphs |
-
-
-## Credits
-
-* The affective knowledge used in this work is from [SenticNet](https://sentic.net/).
-* Here, we would like to express our heartfelt thanks to all the authors of SenticNet. 
-* The code of this repository partly relies on [ASGCN](https://github.com/GeneZC/ASGCN) \& [ABSA-PyTorch](https://github.com/songyouwei/ABSA-PyTorch). 
-* Here, we would like to express our gratitude to the authors of the [ASGCN](https://github.com/GeneZC/ASGCN) \& [ABSA-PyTorch](https://github.com/songyouwei/ABSA-PyTorch) repositories.
-
+    ```bash
+    # The sentence and aspect are hardcoded at lines 119-120.
+    # Please change them if needed before running this line.
+    python infer_for_bert.py
+    ```

@@ -67,5 +67,5 @@ Download the pre-trained Glove from here https://nlp.stanford.edu/data/glove.840
     ```bash
     # The sentence and aspect are hardcoded at lines 119-120.
     # Please change them if needed before running this line.
-    python infer_for_bert.py
+    python infer.py
     ```

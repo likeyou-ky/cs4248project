@@ -43,7 +43,7 @@ Download the pre-trained Glove from here https://nlp.stanford.edu/data/glove.840
 1. Training can be performed with
 
     ```bash
-    # seed 4248 can be replaced with any other seed
+    # seed 4248 can be replaced with any other seed.
     CUDA_VISIBLE_DEVICES=1 python3 train.py --model_name baselinegcn --dataset rest14 --save True --learning_rate 1e-3 --seed 4248 --batch_size 16 --hidden_dim 300
     ```
 

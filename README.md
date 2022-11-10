@@ -36,14 +36,14 @@ Please kindly cite this paper if you use this code.
     pip install allennlp-models
     ```
 
-1. (optional) Generate dependency and sentic graphs with
+1. Generate dependency and sentic graphs with
 
     ```bash
     python generate_dependency_graph.py
     python generate_sentic_graph.py
     ```
 
-1. (optional) Generate sentic & dependeny graph with
+1. Generate sentic & dependeny graph with
 
     ```bash
     # For the baseline version
@@ -51,7 +51,6 @@ Please kindly cite this paper if you use this code.
     # OR for our improved version
     python improved_gen_sentic_dep_graph.py
     ```
-    p.s. Steps 2, 3 and 4 are optional because the output graph files are already stored in corresponding folders.
 
 1. Training can be performed with
 

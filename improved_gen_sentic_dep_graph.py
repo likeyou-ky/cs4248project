@@ -92,7 +92,6 @@ def process(filename):
     idx2graph = {}
     fout = open(filename+'.graph_sdat', 'wb')
     for i in range(0, len(lines), 3):
-        print(i, len(lines))
         text_left, _, text_right = [s.lower().strip() for s in lines[i].partition("$T$")]
         aspect = lines[i + 1].lower().strip()
         adj_matrix = dependency_adj_matrix(text_left+' '+aspect+' '+text_right, aspect, senticNet)

@@ -56,6 +56,7 @@ Please kindly cite this paper if you use this code.
 1. Training can be performed with
 
     ```bash
+    chmod +x train_model.sh
     ./train_model.sh
     ```
 

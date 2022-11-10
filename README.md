@@ -66,3 +66,8 @@ Please kindly cite this paper if you use this code.
     # Please change them if needed before running this line.
     python infer_for_bert.py
     ```
+   
+
+
+Reference:
+https://github.com/BinLiang-NLP/Sentic-GCN

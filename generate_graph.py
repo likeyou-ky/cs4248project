@@ -60,8 +60,6 @@ def process(filename):
     fout.close() 
 
 if __name__ == '__main__':
-    process('./datasets/acl-14-short-data/train.raw')
-    process('./datasets/acl-14-short-data/test.raw')
     process('./datasets/semeval14/restaurant_train.raw')
     process('./datasets/semeval14/restaurant_test.raw')
     process('./datasets/semeval14/laptop_train.raw')

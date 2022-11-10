@@ -50,7 +50,6 @@ class Inferer:
         print('loading model {0} ...'.format(opt.model_name))
         self.model.load_state_dict(torch.load(opt.state_dict_path))
         self.model = self.model
-        # switch model to evaluation mode
         self.model.eval()
         torch.autograd.set_grad_enabled(False)
 
@@ -78,7 +77,6 @@ class Inferer:
 
 if __name__ == '__main__':
     dataset = 'rest14'
-    # set your trained models here
     model_state_dict_paths = {
         'baselinegcn': 'state_dict/baselinegcn_'+dataset+'.pkl',
     }

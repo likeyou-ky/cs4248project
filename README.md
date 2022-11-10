@@ -20,7 +20,7 @@ Please kindly cite this paper if you use this code.
 | Transformers | 4.24.0 |
 | ipdb | 0.13.9 |
 
-Download the pre-trained Glove from here https://nlp.stanford.edu/data/glove.840B.300d.zip and put the unzipped file in the same directory as run_gcn_baseline.sh
+Download the pre-trained Glove from here https://nlp.stanford.edu/data/glove.840B.300d.zip and put the unzipped file in the same directory as ```generate_graphs.py```
 
 ## Usage
 
@@ -34,7 +34,7 @@ Download the pre-trained Glove from here https://nlp.stanford.edu/data/glove.840
     pip install ipdb
     ```
 
-1. Generate all graphs with
+1. (optional) Generate all graphs with
 
     ```bash
     python generate_graphs.py

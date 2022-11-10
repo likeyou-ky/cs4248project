@@ -46,11 +46,12 @@ Please kindly cite this paper if you use this code.
 1. Generate sentic & dependeny graph with
 
     ```bash
-    # For the baseline version
+    # For the previous SOTA version
     python generate_sentic_dependency_graph.py
-    # OR for our improved version
+    # OR for our improved (new SOTA) version
     python improved_gen_sentic_dep_graph.py
     ```
+   p.s.: step 2, 3 are not necessary if you want to run our proposed model because the graph are already stored in the folder. However, step 2, 3 are mandatory if you want to run the previous SOTA version.
 
 1. Training can be performed with
 

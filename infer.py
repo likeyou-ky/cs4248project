@@ -7,8 +7,8 @@ import torch.nn.functional as F
 
 from data_utils import Tokenizer, build_embedding_matrix
 from data_utils import ABSADatesetReader
-from models import BaselineGCN
-from generate_dependency_graph import dependency_adj_matrix
+from baselinegcn import BaselineGCN
+from generate_graphs import dependency_adj_matrix
 
 class Inferer:
     """A simple inference example"""

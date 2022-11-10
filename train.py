@@ -10,7 +10,7 @@ import torch.nn as nn
 from bucket_iterator import BucketIterator
 from sklearn import metrics
 from data_utils import ABSADatesetReader
-from models import BaselineGCN
+from baselinegcn import BaselineGCN
 
 class Instructor:
     def __init__(self, opt):

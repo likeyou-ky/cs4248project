@@ -61,10 +61,7 @@ def sent_dep_adj_matrix(text, aspect, senticNet):
     return matrix
 
 def load_sentic_word():
-    """
-    load senticNet
-    """
-    path = './senticNet/senticnet_word.txt'
+    path = './datasets/senticnet_word.txt'
     senticNet = {}
     fp = open(path, 'r')
     for line in fp:
